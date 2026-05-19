@@ -28,14 +28,20 @@
 
 - `pnpm add better-auth`
 
-2. Création de `lib/auth.ts`
+2. Ajout des variables env
+
+- BETTER_AUTH_SECRET
+- BETTER_AUTH_URL
+- NEXT_PUBLIC_BETTER_AUTH_URL
+
+3. Création de `lib/auth.ts`
 
 - `betterAuth()` crée l’instance principale d’authentification.
 - `prismaAdapter(prisma)` connecte Better Auth à Prisma.
 - `provider: "postgresql"` indique que la DB utilisée derrière Prisma est PostgreSQL.
 - `emailAndPassword.enabled = true` active l’auth email/password.
 
-3. Génération des modèles Prisma Better Auth
+4. Génération des modèles Prisma Better Auth
 
 - `pnpm dlx auth@latest generate --adapter prisma`
 
@@ -46,16 +52,16 @@ Cette commande ajoute dans `schema.prisma` :
 - `Account`
 - `Verification`
 
-4. Migration DB
+5. Migration DB
 
 - `pnpm prisma migrate dev --name auth`
 Cette commande crée les vraies tables dans Neon.
 
-5. Création de la route API auth
+6. Création de la route API auth
 
 - `app/api/auth/[...all]/route.ts`
 
-6. Création du client auth frontend
+7. Création du client auth frontend
 
 - `lib/auth-client.ts`
 
