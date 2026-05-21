@@ -29,6 +29,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  orders        Order[]
 
   twoFactorEnabled Boolean?    @default(false)
   twofactors       TwoFactor[]
@@ -96,4 +97,54 @@ model TwoFactor {
   @@index([secret])
   @@index([userId])
   @@map("twoFactor")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  slug        String @unique
+  price       Int      // en centimes
+  currency    String   @default("eur")
+  imageUrl    String?
+  stock       Int      @default(0)
+  isActive    Boolean  @default(true)
+  orderItems  OrderItem[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum ORDER_STATUS {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+model Order {
+  id              String @id @default(cuid())
+  email           String?
+  status          ORDER_STATUS @default(PENDING)
+  amountTotal     Int
+  currency        String @default("eur")
+  stripeSessionId String? @unique
+  stripePaymentId String? @unique
+  userId          String?
+  user            User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items           OrderItem[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model OrderItem {
+  id          String @id @default(cuid())
+  quantity    Int
+  unitPrice   Int
+  productName String
+  orderId     String
+  order       Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
 }

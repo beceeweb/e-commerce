@@ -66,3 +66,18 @@ export type Verification = Prisma.VerificationModel
  * 
  */
 export type TwoFactor = Prisma.TwoFactorModel
+/**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model OrderItem
+ * 
+ */
+export type OrderItem = Prisma.OrderItemModel

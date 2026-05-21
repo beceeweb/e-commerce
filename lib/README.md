@@ -136,3 +136,77 @@ Cette commande crée les vraies tables dans Neon.
 - RESEND_API_KEY
 - RESEND_FROM_EMAIL = onboarding@resend.dev en dev
 - RESEND_FROM_EMAIL = "Nom App <noreply@domaine.com>" en prod
+
+
+## Stripe
+
+1. Installation des dependances
+
+- pnpm add stripe @stripe/stripe-js
+
+2. Creation de l'instance Stripe
+
+- `lib/payment/stripe.ts`
+- const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+
+3. Ajout des variables env
+
+- STRIPE_SECRET_KEY=sk_test_...
+- NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+- STRIPE_WEBHOOK_SECRET=whsec_...
+- NEXT_PUBLIC_APP_URL=http://localhost:3000 en dev et domaine en prod 
+
+4. Creation du checkout
+
+- `app/api/stripe/checkout/route.ts``
+- le checkout c'est la page de payement 
+- Checkout = page de paiement hébergée par Stripe.
+- La route reçoit le panier, vérifie les prix côté serveur, crée l’`Order`, crée la `Checkout Session`, puis retourne `session.url`.
+
+5. Creation du webhook 
+
+- `app/api/stripe/webhook/route.ts`
+- un webhook est une route qui receptionne une confirmation puis la valide (avec le secret de stripe)
+- Important : utiliser `await req.text()` et non `await req.json()` pour conserver le body brut nécessaire à la validation de signature.
+
+6. Création des redirections
+
+- app/stripe/checkout/success/page.tsx
+- app/stripe/checkout/cancel/page.tsx
+
+# Environnement Dev
+
+1. Lignes de commandes 
+
+- brew install stripe/stripe-cli/stripe - installation du CLI (une seule fois)
+- stripe version (pour verifier la version de stripe)
+- stripe login - connexion a Stripe (met en sauvegarde, pas besoin de relancer constamment)
+- stripe listen --forward-to localhost:3000/api/stripe/webhook - Ecouter le webhook localement (cli affiche Ready! Your webhook signing secret is whsec_...)
+- Mettre le secret dans le stripe_webhook_secret
+
+2. Paiements de test
+
+- Utiliser les cartes de test Stripe.
+- Exemple classique : 4242 4242 4242 4242
+- Date future
+- CVC aléatoire
+
+# Environnement Prod
+
+1. Variables env
+
+- Remplacer les clés `test` par les clés `live`.
+- Ne jamais mélanger `sk_test` et `pk_live`.
+
+2. Webhook Stripe
+
+- Aller dans Stripe Dashboard > Webhooks
+- Ajouter : `https://ton-domaine.com/api/stripe/webhook`
+- Récupérer le `whsec_...`
+- Le mettre dans `STRIPE_WEBHOOK_SECRET`
+
+3. Vérifications importantes
+
+- Vérifier que le webhook reçoit bien `checkout.session.completed`
+- Vérifier que `Order` passe bien en `PAID`
+- Vérifier les redirects success/cancel
