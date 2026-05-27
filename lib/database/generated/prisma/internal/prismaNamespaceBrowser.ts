@@ -156,7 +156,8 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   currency: 'currency',
   imageUrl: 'imageUrl',
-  stock: 'stock',
+  stockOnHand: 'stockOnHand',
+  stockReserved: 'stockReserved',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -169,13 +170,21 @@ export const OrderScalarFieldEnum = {
   id: 'id',
   email: 'email',
   status: 'status',
+  shippingAddress: 'shippingAddress',
+  billingAddress: 'billingAddress',
+  shippingAmount: 'shippingAmount',
+  taxAmount: 'taxAmount',
+  discountAmount: 'discountAmount',
+  subtotalAmount: 'subtotalAmount',
   amountTotal: 'amountTotal',
   currency: 'currency',
   stripeSessionId: 'stripeSessionId',
   stripePaymentId: 'stripePaymentId',
   userId: 'userId',
+  idempotencyKey: 'idempotencyKey',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  expiredAt: 'expiredAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
