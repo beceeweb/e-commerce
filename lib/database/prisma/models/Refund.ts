@@ -321,7 +321,7 @@ export type RefundCreateInput = {
   status?: $Enums.REFUND_STATUS
   createdAt?: Date | string
   updatedAt?: Date | string
-  payment: Prisma.PaymentCreateNestedOneWithoutRefundInput
+  payment: Prisma.PaymentCreateNestedOneWithoutRefundsInput
 }
 
 export type RefundUncheckedCreateInput = {
@@ -345,7 +345,7 @@ export type RefundUpdateInput = {
   status?: Prisma.EnumREFUND_STATUSFieldUpdateOperationsInput | $Enums.REFUND_STATUS
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  payment?: Prisma.PaymentUpdateOneRequiredWithoutRefundNestedInput
+  payment?: Prisma.PaymentUpdateOneRequiredWithoutRefundsNestedInput
 }
 
 export type RefundUncheckedUpdateInput = {

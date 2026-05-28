@@ -43,15 +43,40 @@ export type Verification = Prisma.VerificationModel
  */
 export type TwoFactor = Prisma.TwoFactorModel
 /**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
  * Model Product
  * 
  */
 export type Product = Prisma.ProductModel
 /**
+ * Model ProductVariant
+ * 
+ */
+export type ProductVariant = Prisma.ProductVariantModel
+/**
+ * Model ProductImage
+ * 
+ */
+export type ProductImage = Prisma.ProductImageModel
+/**
+ * Model Address
+ * 
+ */
+export type Address = Prisma.AddressModel
+/**
  * Model Order
  * 
  */
 export type Order = Prisma.OrderModel
+/**
+ * Model OrderStatusHistory
+ * 
+ */
+export type OrderStatusHistory = Prisma.OrderStatusHistoryModel
 /**
  * Model OrderItem
  * 
@@ -73,20 +98,10 @@ export type PromotionProduct = Prisma.PromotionProductModel
  */
 export type Coupon = Prisma.CouponModel
 /**
- * Model OrderCoupon
+ * Model CouponRedemption
  * 
  */
-export type OrderCoupon = Prisma.OrderCouponModel
-/**
- * Model Category
- * 
- */
-export type Category = Prisma.CategoryModel
-/**
- * Model ProductImage
- * 
- */
-export type ProductImage = Prisma.ProductImageModel
+export type CouponRedemption = Prisma.CouponRedemptionModel
 /**
  * Model Payment
  * 
@@ -98,7 +113,27 @@ export type Payment = Prisma.PaymentModel
  */
 export type Refund = Prisma.RefundModel
 /**
- * Model ProductVariant
+ * Model WebhookEvent
  * 
  */
-export type ProductVariant = Prisma.ProductVariantModel
+export type WebhookEvent = Prisma.WebhookEventModel
+/**
+ * Model InventoryMovement
+ * 
+ */
+export type InventoryMovement = Prisma.InventoryMovementModel
+/**
+ * Model Shipment
+ * 
+ */
+export type Shipment = Prisma.ShipmentModel
+/**
+ * Model Cart
+ * 
+ */
+export type Cart = Prisma.CartModel
+/**
+ * Model CartItem
+ * 
+ */
+export type CartItem = Prisma.CartItemModel

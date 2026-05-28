@@ -122,9 +122,12 @@ model Product {
   promotionsProduct PromotionProduct[]
   productImages     ProductImage[]
   productVariants   ProductVariant[]
-  orderItems  OrderItem[]
+  orderItems        OrderItem[]
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
+
+  @@index([categoryId])
+  @@index([isActive])
 }
 
 model ProductVariant {
@@ -132,7 +135,7 @@ model ProductVariant {
   productId          String
   product            Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
   name               String
-  slug               String              
+  slug               String
   sku                String?             @unique
   price              Int
   currency           String              @default("eur")
@@ -143,7 +146,10 @@ model ProductVariant {
   cartItems          CartItem[]
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
+
   @@unique([productId, slug])
+  @@index([name])
+  @@index([productId])
 }
 
 model ProductImage {
@@ -213,6 +219,9 @@ model Order {
   expiresAt          DateTime?
 
   @@unique([userId, idempotencyKey])
+  @@index([userId])
+  @@index([email])
+  @@index([createdAt])
 }
 
 model OrderStatusHistory {
@@ -237,7 +246,7 @@ model OrderItem {
   orderId         String
   order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId       String?
-  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  product         Product?        @relation(fields: [productId], references: [id], onDelete: SetNull)
   variantId       String?
   variant         ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
   createdAt       DateTime        @default(now())
@@ -279,6 +288,7 @@ model Coupon {
   usageCount       Int                @default(0)
   maxUses          Int?
   maxUsesPerUser   Int?
+  isActive         Boolean            @default(true)
   startsAt         DateTime
   expiresAt        DateTime
   couponRedemption CouponRedemption[]
@@ -321,6 +331,9 @@ model Payment {
   currency          String         @default("eur")
   createdAt         DateTime       @default(now())
   updatedAt         DateTime       @updatedAt
+
+  @@index([orderId])
+  @@index([status])
 }
 
 enum REFUND_STATUS {
@@ -340,6 +353,8 @@ model Refund {
   status           REFUND_STATUS @default(PENDING)
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+
+  @@index([paymentId])
 }
 
 model WebhookEvent {
@@ -397,15 +412,18 @@ model Shipment {
   deliveredAt        DateTime?
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
+
+  @@index([orderId])
 }
 
 model Cart {
-  id        String     @id @default(cuid())
-  userId    String?    @unique
-  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items     CartItem[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id          String     @id @default(cuid())
+  anonymousId String?    @unique
+  userId      String?    @unique
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       CartItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model CartItem {
