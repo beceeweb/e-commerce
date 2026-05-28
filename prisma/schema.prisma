@@ -5,7 +5,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../lib/database/generated/prisma"
+  output   = "../lib/database/prisma"
 }
 
 datasource db {
@@ -100,19 +100,20 @@ model TwoFactor {
 }
 
 model Product {
-  id            String    @id @default(cuid())
-  name          String
-  description   String?
-  slug          String    @unique
-  price         Int      // en centimes
-  currency      String    @default("eur")
-  imageUrl      String?
-  stockOnHand   Int       @default(0)
-  stockReserved Int       @default(0)
-  isActive      Boolean   @default(true)
-  orderItems    OrderItem[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                String             @id @default(cuid())
+  name              String
+  description       String?
+  slug              String             @unique
+  imageUrl          String?
+  isActive          Boolean            @default(true)
+  categoryId        String
+  category          Category           @relation(fields: [categoryId], references: [id])
+  orderItems        OrderItem[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  promotionsProduct PromotionProduct[]
+  productImages     ProductImage[]
+  productVariants   ProductVariant[]
 }
 
 enum ORDER_STATUS {
@@ -121,12 +122,13 @@ enum ORDER_STATUS {
   FAILED
   CANCELLED
   REFUNDED
+  EXPIRED
 }
 
 model Order {
-  id              String        @id @default(cuid())
+  id              String       @id @default(cuid())
   email           String?
-  status          ORDER_STATUS  @default(PENDING)
+  status          ORDER_STATUS @default(PENDING)
   shippingAddress String
   billingAddress  String
   shippingAmount  Int
@@ -134,27 +136,141 @@ model Order {
   discountAmount  Int
   subtotalAmount  Int
   amountTotal     Int
-  currency        String        @default("eur")
-  stripeSessionId String?       @unique
-  stripePaymentId String?       @unique
+  currency        String       @default("eur")
+  stripeSessionId String?      @unique
+  stripePaymentId String?      @unique
   userId          String?
-  user            User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
-  idempotencyKey  String? 
+  user            User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  idempotencyKey  String
   items           OrderItem[]
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  expiredAt       DateTime?     
+  variantId String
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  expiresAt       DateTime?
+  payment         Payment[]
+
   @@unique([userId, idempotencyKey])
 }
 
 model OrderItem {
-  id          String    @id @default(cuid())
-  quantity    Int
-  unitPrice   Int
-  productName String
-  orderId     String
-  order       Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId   String?
-  product     Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
-  createdAt   DateTime  @default(now())
+  id              String   @id @default(cuid())
+  quantity        Int
+  productImageUrl String?
+  unitPrice       Int
+  discountAmount  Int      @default(0)
+  finalUnitPrice  Int
+  lineTotalAmount Int //finalPrice * quantity
+  productName     String
+  orderId         String
+  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId       String?
+  product         Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+}
+
+enum PROMOTION_TYPE {
+  PERCENTAGE
+  FIXED
+}
+
+model Promotion {
+  id                String             @id @default(cuid())
+  type              PROMOTION_TYPE
+  value             Int
+  startsAt          DateTime?
+  endsAt            DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  promotionsProduct PromotionProduct[]
+}
+
+model PromotionProduct {
+  productId   String
+  promotionId String
+  product     Product   @relation(fields: [productId], references: [id])
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+
+  @@id([productId, promotionId])
+}
+
+model Category {
+  id      String    @id @default(cuid())
+  name    String
+  slug    String
+  type    String
+  product Product[]
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  position  Int?     @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Coupon {
+  id        String         @id @default(cuid())
+  value     Int
+  type      PROMOTION_TYPE
+  startsAt  DateTime
+  expiresAt DateTime
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+enum PAYMENT_STATUS {
+  PENDING
+  SUCCEDED
+  FAILED
+  REFUNDED
+}
+
+model Payment {
+  id        String         @id @default(cuid())
+  orderId   String
+  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider  String
+  status    PAYMENT_STATUS @default(PENDING)
+  amount    Int
+  refund    Refund[]
+  currency  String         @default("eur")
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+enum REFUND_STATUS {
+  PENDING
+  SUCCEDED
+  FAILED
+}
+
+model Refund {
+  id             String        @id @default(cuid())
+  paymentId      String
+  payment        Payment       @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  providerRefund String
+  amount         Int
+  currency       String
+  reason         String
+  status         REFUND_STATUS @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model ProductVariant {
+  id            String   @id @default(cuid())
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name          String
+  slug          String
+  sku           String   @unique
+  price         Int
+  stockOnHand   Int
+  stockReserved Int
+  order Order[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

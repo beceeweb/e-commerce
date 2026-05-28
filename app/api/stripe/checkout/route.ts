@@ -24,7 +24,9 @@ export async function POST (req: NextRequest){
         // Recuperer les données envoyées du front 
 
         const body = await req.json()
-        const items: {productId: string, quantity: number}[] = body.items
+        const items: { productId: string, quantity: number }[] = body.items
+        const shippingAddress: string = body.shippingAddress
+        const billingAddress: string = body.billingAddress 
         const idempotencyKey = body.idempotencyKey
 
 
@@ -82,13 +84,13 @@ export async function POST (req: NextRequest){
             if (!product) {
                 throw new Error("Produit introuvable");
             }
-            if(Number.isInteger(item.quantity) || item.quantity < 1){
+            if(!Number.isInteger(item.quantity) || item.quantity < 1){
                 throw new Error('Quantité invalide')
             }
             if(product.price <= 0){
                 throw new Error(`Prix invalide pour ${product.name}`)
             }
-            if(item.quantity > product.stock){
+            if(item.quantity > product.stockOnHand){
                 throw new Error(`Stock insuffisant pour ${product.name}`)
             }
             return {
@@ -99,7 +101,7 @@ export async function POST (req: NextRequest){
 
 
         const lineItems = enrichedItems.map(({product, quantity})=>{
-            if(product.stock===0){
+            if(product.stockOnHand===0){
                 throw new Error(`${product.name} n'est pas disponible`)
             }
                 return {
@@ -115,9 +117,11 @@ export async function POST (req: NextRequest){
                     quantity
                 };
             })
+        
 
-        const totalAmount = enrichedItems.reduce((total, {product, quantity}) => {
-            return total + product.price * quantity
+        const amountCalcul = enrichedItems.reduce((total, {product, quantity}) => {
+            const totalAmount = total + product.price * quantity
+            const taxes = total + product.discount
         }, 0)
 
 
@@ -142,9 +146,14 @@ export async function POST (req: NextRequest){
                     status: "PENDING",
                     userId: session.user.id, 
                     email: session.user.email, 
-                    amountTotal : totalAmount, 
                     currency: "eur",
-                    customer_email: session.user.email,
+                    shippingAmount,
+                    taxAmount,
+                    discountAmount,
+                    subtotalAmount
+                    shippingAddress, 
+                    amountTotal : totalAmount, 
+                    billingAddress,
                     idempotencyKey,
                     items: {
                         create: enrichedItems.map(({product, quantity})=>({
