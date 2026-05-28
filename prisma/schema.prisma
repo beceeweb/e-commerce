@@ -19,20 +19,20 @@ enum ROLE {
 }
 
 model User {
-  id               String             @id
-  name             String
-  email            String
-  emailVerified    Boolean            @default(false)
-  role             ROLE               @default(CLIENT)
-  image            String?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  sessions         Session[]
-  accounts         Account[]
-  orders           Order[]
-  address          Address[]
-  couponRedemption CouponRedemption[]
-  cart             Cart?
+  id                String             @id
+  name              String
+  email             String
+  emailVerified     Boolean            @default(false)
+  role              ROLE               @default(CLIENT)
+  image             String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  sessions          Session[]
+  accounts          Account[]
+  orders            Order[]
+  addresses         Address[]
+  couponRedemptions CouponRedemption[]
+  cart              Cart?
 
   twoFactorEnabled Boolean?    @default(false)
   twofactors       TwoFactor[]
@@ -103,11 +103,11 @@ model TwoFactor {
 }
 
 model Category {
-  id      String    @id @default(cuid())
-  name    String
-  slug    String    @unique
-  type    String
-  product Product[]
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  type     String
+  products Product[]
 }
 
 model Product {
@@ -122,26 +122,28 @@ model Product {
   promotionsProduct PromotionProduct[]
   productImages     ProductImage[]
   productVariants   ProductVariant[]
+  orderItems  OrderItem[]
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 }
 
 model ProductVariant {
-  id                String              @id @default(cuid())
-  productId         String
-  product           Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
-  name              String
-  slug              String              @unique
-  sku               String?             @unique
-  price             Int
-  currency          String              @default("eur")
-  stockOnHand       Int                 @default(0)
-  stockReserved     Int                 @default(0)
-  orderItems        OrderItem[]
-  inventoryMovement InventoryMovement[]
-  cartItem          CartItem[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  id                 String              @id @default(cuid())
+  productId          String
+  product            Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name               String
+  slug               String              
+  sku                String?             @unique
+  price              Int
+  currency           String              @default("eur")
+  stockOnHand        Int                 @default(0)
+  stockReserved      Int                 @default(0)
+  orderItems         OrderItem[]
+  inventoryMovements InventoryMovement[]
+  cartItems          CartItem[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  @@unique([productId, slug])
 }
 
 model ProductImage {
@@ -196,14 +198,15 @@ model Order {
   discountAmount     Int
   subtotalAmount     Int
   totalAmount        Int
+  currency           String               @default("eur")
   userId             String?
   user               User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
   idempotencyKey     String
   items              OrderItem[]
-  payment            Payment[]
-  orderCoupon        CouponRedemption[]
-  inventoryMovement  InventoryMovement[]
-  shipment           Shipment[]
+  payments           Payment[]
+  couponRedemptions  CouponRedemption[]
+  inventoryMovements InventoryMovement[]
+  shipments          Shipment[]
   orderStatusHistory OrderStatusHistory[]
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
@@ -234,6 +237,7 @@ model OrderItem {
   orderId         String
   order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId       String?
+  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
   variantId       String?
   variant         ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
   createdAt       DateTime        @default(now())
@@ -267,18 +271,19 @@ model PromotionProduct {
 }
 
 model Coupon {
-  id          String             @id @default(cuid())
-  value       Int
-  currency    String             @default("eur")
-  type        PROMOTION_TYPE
-  code        String             @unique
-  usageCount  Int                @default(0)
-  maxUses     Int?
-  startsAt    DateTime
-  expiresAt   DateTime
-  orderCoupon CouponRedemption[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  id               String             @id @default(cuid())
+  value            Int
+  currency         String             @default("eur")
+  type             PROMOTION_TYPE
+  code             String             @unique
+  usageCount       Int                @default(0)
+  maxUses          Int?
+  maxUsesPerUser   Int?
+  startsAt         DateTime
+  expiresAt        DateTime
+  couponRedemption CouponRedemption[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 }
 
 model CouponRedemption {
@@ -291,7 +296,6 @@ model CouponRedemption {
   user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   code           String
   discountAmount Int
-  maxUsesPerUser Int?
   usedAt         DateTime @default(now())
 
   @@unique([orderId, couponId])
@@ -313,7 +317,7 @@ model Payment {
   providerPaymentId String?        @unique
   status            PAYMENT_STATUS @default(PENDING)
   amount            Int
-  refund            Refund[]
+  refunds           Refund[]
   currency          String         @default("eur")
   createdAt         DateTime       @default(now())
   updatedAt         DateTime       @updatedAt
