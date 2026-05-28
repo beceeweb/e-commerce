@@ -19,17 +19,20 @@ enum ROLE {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  role          ROLE      @default(CLIENT)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  orders        Order[]
+  id               String             @id
+  name             String
+  email            String
+  emailVerified    Boolean            @default(false)
+  role             ROLE               @default(CLIENT)
+  image            String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  sessions         Session[]
+  accounts         Account[]
+  orders           Order[]
+  address          Address[]
+  couponRedemption CouponRedemption[]
+  cart             Cart?
 
   twoFactorEnabled Boolean?    @default(false)
   twofactors       TwoFactor[]
@@ -99,6 +102,14 @@ model TwoFactor {
   @@map("twoFactor")
 }
 
+model Category {
+  id      String    @id @default(cuid())
+  name    String
+  slug    String    @unique
+  type    String
+  product Product[]
+}
+
 model Product {
   id                String             @id @default(cuid())
   name              String
@@ -106,67 +117,127 @@ model Product {
   slug              String             @unique
   imageUrl          String?
   isActive          Boolean            @default(true)
-  categoryId        String
-  category          Category           @relation(fields: [categoryId], references: [id])
-  orderItems        OrderItem[]
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+  categoryId        String?
+  category          Category?          @relation(fields: [categoryId], references: [id])
   promotionsProduct PromotionProduct[]
   productImages     ProductImage[]
   productVariants   ProductVariant[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model ProductVariant {
+  id                String              @id @default(cuid())
+  productId         String
+  product           Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name              String
+  slug              String              @unique
+  sku               String?             @unique
+  price             Int
+  currency          String              @default("eur")
+  stockOnHand       Int                 @default(0)
+  stockReserved     Int                 @default(0)
+  orderItems        OrderItem[]
+  inventoryMovement InventoryMovement[]
+  cartItem          CartItem[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  position  Int?     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName         String
+  lastName          String
+  line1             String
+  line2             String?
+  city              String
+  postalCode        String
+  country           String
+  phone             String?
+  isDefaultShipping Boolean  @default(false)
+  isDefaultBilling  Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 enum ORDER_STATUS {
   PENDING
   PAID
+  FULFILLED
+  SHIPPED
+  DELIVERED
   FAILED
   CANCELLED
   REFUNDED
   EXPIRED
+  RETURNED
 }
 
 model Order {
-  id              String       @id @default(cuid())
-  email           String?
-  status          ORDER_STATUS @default(PENDING)
-  shippingAddress String
-  billingAddress  String
-  shippingAmount  Int
-  taxAmount       Int
-  discountAmount  Int
-  subtotalAmount  Int
-  amountTotal     Int
-  currency        String       @default("eur")
-  stripeSessionId String?      @unique
-  stripePaymentId String?      @unique
-  userId          String?
-  user            User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
-  idempotencyKey  String
-  items           OrderItem[]
-  variantId String
-  variant ProductVariant @relation(fields: [variantId], references: [id])
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-  expiresAt       DateTime?
-  payment         Payment[]
+  id                 String               @id @default(cuid())
+  email              String?
+  status             ORDER_STATUS         @default(PENDING)
+  shippingAddress    Json
+  billingAddress     Json
+  shippingAmount     Int
+  taxAmount          Int
+  discountAmount     Int
+  subtotalAmount     Int
+  totalAmount        Int
+  userId             String?
+  user               User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  idempotencyKey     String
+  items              OrderItem[]
+  payment            Payment[]
+  orderCoupon        CouponRedemption[]
+  inventoryMovement  InventoryMovement[]
+  shipment           Shipment[]
+  orderStatusHistory OrderStatusHistory[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  expiresAt          DateTime?
 
   @@unique([userId, idempotencyKey])
 }
 
+model OrderStatusHistory {
+  id         String        @id @default(cuid())
+  orderId    String
+  order      Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  fromStatus ORDER_STATUS?
+  toStatus   ORDER_STATUS
+  reason     String?
+  createdAt  DateTime      @default(now())
+}
+
 model OrderItem {
-  id              String   @id @default(cuid())
+  id              String          @id @default(cuid())
   quantity        Int
   productImageUrl String?
   unitPrice       Int
-  discountAmount  Int      @default(0)
+  discountAmount  Int             @default(0)
   finalUnitPrice  Int
   lineTotalAmount Int //finalPrice * quantity
   productName     String
   orderId         String
-  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId       String?
-  product         Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
-  createdAt       DateTime @default(now())
+  variantId       String?
+  variant         ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 }
 
 enum PROMOTION_TYPE {
@@ -178,6 +249,7 @@ model Promotion {
   id                String             @id @default(cuid())
   type              PROMOTION_TYPE
   value             Int
+  currency          String             @default("eur")
   startsAt          DateTime?
   endsAt            DateTime?
   createdAt         DateTime           @default(now())
@@ -194,83 +266,153 @@ model PromotionProduct {
   @@id([productId, promotionId])
 }
 
-model Category {
-  id      String    @id @default(cuid())
-  name    String
-  slug    String
-  type    String
-  product Product[]
-}
-
-model ProductImage {
-  id        String   @id @default(cuid())
-  url       String
-  productId String
-  product   Product  @relation(fields: [productId], references: [id])
-  position  Int?     @default(0)
-  createdAt DateTime @default(now())
-}
-
 model Coupon {
-  id        String         @id @default(cuid())
-  value     Int
-  type      PROMOTION_TYPE
-  startsAt  DateTime
-  expiresAt DateTime
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+  id          String             @id @default(cuid())
+  value       Int
+  currency    String             @default("eur")
+  type        PROMOTION_TYPE
+  code        String             @unique
+  usageCount  Int                @default(0)
+  maxUses     Int?
+  startsAt    DateTime
+  expiresAt   DateTime
+  orderCoupon CouponRedemption[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model CouponRedemption {
+  id             String   @id @default(cuid())
+  orderId        String
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  couponId       String
+  coupon         Coupon   @relation(fields: [couponId], references: [id], onDelete: Restrict)
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  code           String
+  discountAmount Int
+  maxUsesPerUser Int?
+  usedAt         DateTime @default(now())
+
+  @@unique([orderId, couponId])
 }
 
 enum PAYMENT_STATUS {
   PENDING
-  SUCCEDED
+  SUCCEEDED
   FAILED
   REFUNDED
 }
 
 model Payment {
-  id        String         @id @default(cuid())
-  orderId   String
-  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  provider  String
-  status    PAYMENT_STATUS @default(PENDING)
-  amount    Int
-  refund    Refund[]
-  currency  String         @default("eur")
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+  id                String         @id @default(cuid())
+  orderId           String
+  order             Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider          String
+  providerSessionId String?        @unique
+  providerPaymentId String?        @unique
+  status            PAYMENT_STATUS @default(PENDING)
+  amount            Int
+  refund            Refund[]
+  currency          String         @default("eur")
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
 }
 
 enum REFUND_STATUS {
   PENDING
-  SUCCEDED
+  SUCCEEDED
   FAILED
 }
 
 model Refund {
-  id             String        @id @default(cuid())
-  paymentId      String
-  payment        Payment       @relation(fields: [paymentId], references: [id], onDelete: Cascade)
-  providerRefund String
-  amount         Int
-  currency       String
-  reason         String
-  status         REFUND_STATUS @default(PENDING)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  id               String        @id @default(cuid())
+  paymentId        String
+  payment          Payment       @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  providerRefundId String?       @unique
+  amount           Int
+  currency         String        @default("eur")
+  reason           String?
+  status           REFUND_STATUS @default(PENDING)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 }
 
-model ProductVariant {
-  id            String   @id @default(cuid())
-  productId     String
-  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  name          String
-  slug          String
-  sku           String   @unique
-  price         Int
-  stockOnHand   Int
-  stockReserved Int
-  order Order[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+model WebhookEvent {
+  id         String   @id @default(cuid())
+  provider   String
+  eventId    String   @unique
+  type       String
+  receivedAt DateTime @default(now())
+}
+
+enum INVENTORY_MOVEMENT_TYPE {
+  RESTOCK
+  RESERVE
+  RELEASE
+  SALE
+  RETURN
+  ADJUSTMENT
+  DAMAGED
+  LOST
+}
+
+model InventoryMovement {
+  id        String                  @id @default(cuid())
+  variantId String
+  variant   ProductVariant          @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  orderId   String?
+  order     Order?                  @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  type      INVENTORY_MOVEMENT_TYPE
+  quantity  Int
+  reason    String?
+  createdAt DateTime                @default(now())
+}
+
+enum SHIPMENT_STATUS {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  FAILED
+  RETURNED
+}
+
+model Shipment {
+  id                 String          @id @default(cuid())
+  orderId            String
+  order              Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider           String?
+  externalShipmentId String?
+  carrier            String?
+  trackingNumber     String?
+  trackingUrl        String?
+  status             SHIPMENT_STATUS @default(PENDING)
+  shippingCost       Int             @default(0)
+  shippedAt          DateTime?
+  deliveredAt        DateTime?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String?    @unique
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String         @id @default(cuid())
+  cartId    String
+  cart      Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  quantity  Int
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@unique([cartId, variantId])
 }

@@ -92,6 +92,16 @@ export type Promotion = Prisma.PromotionModel
  */
 export type PromotionProduct = Prisma.PromotionProductModel
 /**
+ * Model Coupon
+ * 
+ */
+export type Coupon = Prisma.CouponModel
+/**
+ * Model OrderCoupon
+ * 
+ */
+export type OrderCoupon = Prisma.OrderCouponModel
+/**
  * Model Category
  * 
  */
@@ -102,11 +112,6 @@ export type Category = Prisma.CategoryModel
  */
 export type ProductImage = Prisma.ProductImageModel
 /**
- * Model Coupon
- * 
- */
-export type Coupon = Prisma.CouponModel
-/**
  * Model Payment
  * 
  */
@@ -116,3 +121,8 @@ export type Payment = Prisma.PaymentModel
  * 
  */
 export type Refund = Prisma.RefundModel
+/**
+ * Model ProductVariant
+ * 
+ */
+export type ProductVariant = Prisma.ProductVariantModel

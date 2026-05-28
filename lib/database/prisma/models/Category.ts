@@ -187,14 +187,14 @@ export type CategoryOrderByWithRelationInput = {
 
 export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
   OR?: Prisma.CategoryWhereInput[]
   NOT?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
   name?: Prisma.StringFilter<"Category"> | string
-  slug?: Prisma.StringFilter<"Category"> | string
   type?: Prisma.StringFilter<"Category"> | string
   product?: Prisma.ProductListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type CategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -269,9 +269,9 @@ export type CategoryUncheckedUpdateManyInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type CategoryScalarRelationFilter = {
-  is?: Prisma.CategoryWhereInput
-  isNot?: Prisma.CategoryWhereInput
+export type CategoryNullableScalarRelationFilter = {
+  is?: Prisma.CategoryWhereInput | null
+  isNot?: Prisma.CategoryWhereInput | null
 }
 
 export type CategoryCountOrderByAggregateInput = {
@@ -301,10 +301,12 @@ export type CategoryCreateNestedOneWithoutProductInput = {
   connect?: Prisma.CategoryWhereUniqueInput
 }
 
-export type CategoryUpdateOneRequiredWithoutProductNestedInput = {
+export type CategoryUpdateOneWithoutProductNestedInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutProductInput, Prisma.CategoryUncheckedCreateWithoutProductInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutProductInput
   upsert?: Prisma.CategoryUpsertWithoutProductInput
+  disconnect?: Prisma.CategoryWhereInput | boolean
+  delete?: Prisma.CategoryWhereInput | boolean
   connect?: Prisma.CategoryWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutProductInput, Prisma.CategoryUpdateWithoutProductInput>, Prisma.CategoryUncheckedUpdateWithoutProductInput>
 }

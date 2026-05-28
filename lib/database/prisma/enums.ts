@@ -40,7 +40,7 @@ export type PROMOTION_TYPE = (typeof PROMOTION_TYPE)[keyof typeof PROMOTION_TYPE
 
 export const PAYMENT_STATUS = {
   PENDING: 'PENDING',
-  SUCCEDED: 'SUCCEDED',
+  SUCCEEDED: 'SUCCEEDED',
   FAILED: 'FAILED',
   REFUNDED: 'REFUNDED'
 } as const
@@ -50,7 +50,7 @@ export type PAYMENT_STATUS = (typeof PAYMENT_STATUS)[keyof typeof PAYMENT_STATUS
 
 export const REFUND_STATUS = {
   PENDING: 'PENDING',
-  SUCCEDED: 'SUCCEDED',
+  SUCCEEDED: 'SUCCEEDED',
   FAILED: 'FAILED'
 } as const
 

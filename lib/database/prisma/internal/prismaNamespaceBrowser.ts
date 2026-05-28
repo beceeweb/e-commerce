@@ -61,11 +61,13 @@ export const ModelName = {
   OrderItem: 'OrderItem',
   Promotion: 'Promotion',
   PromotionProduct: 'PromotionProduct',
+  Coupon: 'Coupon',
+  OrderCoupon: 'OrderCoupon',
   Category: 'Category',
   ProductImage: 'ProductImage',
-  Coupon: 'Coupon',
   Payment: 'Payment',
-  Refund: 'Refund'
+  Refund: 'Refund',
+  ProductVariant: 'ProductVariant'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -160,11 +162,7 @@ export const ProductScalarFieldEnum = {
   name: 'name',
   description: 'description',
   slug: 'slug',
-  price: 'price',
-  currency: 'currency',
   imageUrl: 'imageUrl',
-  stockOnHand: 'stockOnHand',
-  stockReserved: 'stockReserved',
   isActive: 'isActive',
   categoryId: 'categoryId',
   createdAt: 'createdAt',
@@ -184,10 +182,7 @@ export const OrderScalarFieldEnum = {
   taxAmount: 'taxAmount',
   discountAmount: 'discountAmount',
   subtotalAmount: 'subtotalAmount',
-  amountTotal: 'amountTotal',
-  currency: 'currency',
-  stripeSessionId: 'stripeSessionId',
-  stripePaymentId: 'stripePaymentId',
+  totalAmount: 'totalAmount',
   userId: 'userId',
   idempotencyKey: 'idempotencyKey',
   createdAt: 'createdAt',
@@ -209,7 +204,9 @@ export const OrderItemScalarFieldEnum = {
   productName: 'productName',
   orderId: 'orderId',
   productId: 'productId',
-  createdAt: 'createdAt'
+  variantId: 'variantId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
@@ -219,6 +216,7 @@ export const PromotionScalarFieldEnum = {
   id: 'id',
   type: 'type',
   value: 'value',
+  currency: 'currency',
   startsAt: 'startsAt',
   endsAt: 'endsAt',
   createdAt: 'createdAt',
@@ -236,6 +234,31 @@ export const PromotionProductScalarFieldEnum = {
 export type PromotionProductScalarFieldEnum = (typeof PromotionProductScalarFieldEnum)[keyof typeof PromotionProductScalarFieldEnum]
 
 
+export const CouponScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  currency: 'currency',
+  type: 'type',
+  code: 'code',
+  startsAt: 'startsAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
+
+
+export const OrderCouponScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  couponId: 'couponId',
+  code: 'code'
+} as const
+
+export type OrderCouponScalarFieldEnum = (typeof OrderCouponScalarFieldEnum)[keyof typeof OrderCouponScalarFieldEnum]
+
+
 export const CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -250,29 +273,20 @@ export const ProductImageScalarFieldEnum = {
   id: 'id',
   url: 'url',
   productId: 'productId',
-  position: 'position'
-} as const
-
-export type ProductImageScalarFieldEnum = (typeof ProductImageScalarFieldEnum)[keyof typeof ProductImageScalarFieldEnum]
-
-
-export const CouponScalarFieldEnum = {
-  id: 'id',
-  value: 'value',
-  type: 'type',
-  startsAt: 'startsAt',
-  expiresAt: 'expiresAt',
+  position: 'position',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
+export type ProductImageScalarFieldEnum = (typeof ProductImageScalarFieldEnum)[keyof typeof ProductImageScalarFieldEnum]
 
 
 export const PaymentScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   provider: 'provider',
+  providerSessionId: 'providerSessionId',
+  providerPaymentId: 'providerPaymentId',
   status: 'status',
   amount: 'amount',
   currency: 'currency',
@@ -286,7 +300,7 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 export const RefundScalarFieldEnum = {
   id: 'id',
   paymentId: 'paymentId',
-  providerRefund: 'providerRefund',
+  providerRefundId: 'providerRefundId',
   amount: 'amount',
   currency: 'currency',
   reason: 'reason',
@@ -296,6 +310,23 @@ export const RefundScalarFieldEnum = {
 } as const
 
 export type RefundScalarFieldEnum = (typeof RefundScalarFieldEnum)[keyof typeof RefundScalarFieldEnum]
+
+
+export const ProductVariantScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  name: 'name',
+  slug: 'slug',
+  sku: 'sku',
+  price: 'price',
+  currency: 'currency',
+  stockOnHand: 'stockOnHand',
+  stockReserved: 'stockReserved',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProductVariantScalarFieldEnum = (typeof ProductVariantScalarFieldEnum)[keyof typeof ProductVariantScalarFieldEnum]
 
 
 export const SortOrder = {

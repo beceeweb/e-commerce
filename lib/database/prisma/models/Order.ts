@@ -31,7 +31,7 @@ export type OrderAvgAggregateOutputType = {
   taxAmount: number | null
   discountAmount: number | null
   subtotalAmount: number | null
-  amountTotal: number | null
+  totalAmount: number | null
 }
 
 export type OrderSumAggregateOutputType = {
@@ -39,7 +39,7 @@ export type OrderSumAggregateOutputType = {
   taxAmount: number | null
   discountAmount: number | null
   subtotalAmount: number | null
-  amountTotal: number | null
+  totalAmount: number | null
 }
 
 export type OrderMinAggregateOutputType = {
@@ -52,10 +52,7 @@ export type OrderMinAggregateOutputType = {
   taxAmount: number | null
   discountAmount: number | null
   subtotalAmount: number | null
-  amountTotal: number | null
-  currency: string | null
-  stripeSessionId: string | null
-  stripePaymentId: string | null
+  totalAmount: number | null
   userId: string | null
   idempotencyKey: string | null
   createdAt: Date | null
@@ -73,10 +70,7 @@ export type OrderMaxAggregateOutputType = {
   taxAmount: number | null
   discountAmount: number | null
   subtotalAmount: number | null
-  amountTotal: number | null
-  currency: string | null
-  stripeSessionId: string | null
-  stripePaymentId: string | null
+  totalAmount: number | null
   userId: string | null
   idempotencyKey: string | null
   createdAt: Date | null
@@ -94,10 +88,7 @@ export type OrderCountAggregateOutputType = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency: number
-  stripeSessionId: number
-  stripePaymentId: number
+  totalAmount: number
   userId: number
   idempotencyKey: number
   createdAt: number
@@ -112,7 +103,7 @@ export type OrderAvgAggregateInputType = {
   taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
-  amountTotal?: true
+  totalAmount?: true
 }
 
 export type OrderSumAggregateInputType = {
@@ -120,7 +111,7 @@ export type OrderSumAggregateInputType = {
   taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
-  amountTotal?: true
+  totalAmount?: true
 }
 
 export type OrderMinAggregateInputType = {
@@ -133,10 +124,7 @@ export type OrderMinAggregateInputType = {
   taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
-  amountTotal?: true
-  currency?: true
-  stripeSessionId?: true
-  stripePaymentId?: true
+  totalAmount?: true
   userId?: true
   idempotencyKey?: true
   createdAt?: true
@@ -154,10 +142,7 @@ export type OrderMaxAggregateInputType = {
   taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
-  amountTotal?: true
-  currency?: true
-  stripeSessionId?: true
-  stripePaymentId?: true
+  totalAmount?: true
   userId?: true
   idempotencyKey?: true
   createdAt?: true
@@ -175,10 +160,7 @@ export type OrderCountAggregateInputType = {
   taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
-  amountTotal?: true
-  currency?: true
-  stripeSessionId?: true
-  stripePaymentId?: true
+  totalAmount?: true
   userId?: true
   idempotencyKey?: true
   createdAt?: true
@@ -283,10 +265,7 @@ export type OrderGroupByOutputType = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency: string
-  stripeSessionId: string | null
-  stripePaymentId: string | null
+  totalAmount: number
   userId: string | null
   idempotencyKey: string
   createdAt: Date
@@ -327,10 +306,7 @@ export type OrderWhereInput = {
   taxAmount?: Prisma.IntFilter<"Order"> | number
   discountAmount?: Prisma.IntFilter<"Order"> | number
   subtotalAmount?: Prisma.IntFilter<"Order"> | number
-  amountTotal?: Prisma.IntFilter<"Order"> | number
-  currency?: Prisma.StringFilter<"Order"> | string
-  stripeSessionId?: Prisma.StringNullableFilter<"Order"> | string | null
-  stripePaymentId?: Prisma.StringNullableFilter<"Order"> | string | null
+  totalAmount?: Prisma.IntFilter<"Order"> | number
   userId?: Prisma.StringNullableFilter<"Order"> | string | null
   idempotencyKey?: Prisma.StringFilter<"Order"> | string
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
@@ -339,6 +315,7 @@ export type OrderWhereInput = {
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   items?: Prisma.OrderItemListRelationFilter
   payment?: Prisma.PaymentListRelationFilter
+  orderCoupon?: Prisma.OrderCouponListRelationFilter
 }
 
 export type OrderOrderByWithRelationInput = {
@@ -351,10 +328,7 @@ export type OrderOrderByWithRelationInput = {
   taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
-  amountTotal?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  stripeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  stripePaymentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalAmount?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -363,12 +337,11 @@ export type OrderOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.OrderItemOrderByRelationAggregateInput
   payment?: Prisma.PaymentOrderByRelationAggregateInput
+  orderCoupon?: Prisma.OrderCouponOrderByRelationAggregateInput
 }
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  stripeSessionId?: string
-  stripePaymentId?: string
   userId_idempotencyKey?: Prisma.OrderUserIdIdempotencyKeyCompoundUniqueInput
   AND?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   OR?: Prisma.OrderWhereInput[]
@@ -381,8 +354,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   taxAmount?: Prisma.IntFilter<"Order"> | number
   discountAmount?: Prisma.IntFilter<"Order"> | number
   subtotalAmount?: Prisma.IntFilter<"Order"> | number
-  amountTotal?: Prisma.IntFilter<"Order"> | number
-  currency?: Prisma.StringFilter<"Order"> | string
+  totalAmount?: Prisma.IntFilter<"Order"> | number
   userId?: Prisma.StringNullableFilter<"Order"> | string | null
   idempotencyKey?: Prisma.StringFilter<"Order"> | string
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
@@ -391,7 +363,8 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   items?: Prisma.OrderItemListRelationFilter
   payment?: Prisma.PaymentListRelationFilter
-}, "id" | "stripeSessionId" | "stripePaymentId" | "userId_idempotencyKey">
+  orderCoupon?: Prisma.OrderCouponListRelationFilter
+}, "id" | "userId_idempotencyKey">
 
 export type OrderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -403,10 +376,7 @@ export type OrderOrderByWithAggregationInput = {
   taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
-  amountTotal?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  stripeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  stripePaymentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalAmount?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -432,10 +402,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   taxAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
   discountAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
   subtotalAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
-  amountTotal?: Prisma.IntWithAggregatesFilter<"Order"> | number
-  currency?: Prisma.StringWithAggregatesFilter<"Order"> | string
-  stripeSessionId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
-  stripePaymentId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  totalAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
   userId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   idempotencyKey?: Prisma.StringWithAggregatesFilter<"Order"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
@@ -453,10 +420,7 @@ export type OrderCreateInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   idempotencyKey: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -464,6 +428,7 @@ export type OrderCreateInput = {
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
   payment?: Prisma.PaymentCreateNestedManyWithoutOrderInput
+  orderCoupon?: Prisma.OrderCouponCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUncheckedCreateInput = {
@@ -476,10 +441,7 @@ export type OrderUncheckedCreateInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   userId?: string | null
   idempotencyKey: string
   createdAt?: Date | string
@@ -487,6 +449,7 @@ export type OrderUncheckedCreateInput = {
   expiresAt?: Date | string | null
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
   payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrderInput
+  orderCoupon?: Prisma.OrderCouponUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUpdateInput = {
@@ -499,10 +462,7 @@ export type OrderUpdateInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -510,6 +470,7 @@ export type OrderUpdateInput = {
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
   payment?: Prisma.PaymentUpdateManyWithoutOrderNestedInput
+  orderCoupon?: Prisma.OrderCouponUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateInput = {
@@ -522,10 +483,7 @@ export type OrderUncheckedUpdateInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -533,6 +491,7 @@ export type OrderUncheckedUpdateInput = {
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   payment?: Prisma.PaymentUncheckedUpdateManyWithoutOrderNestedInput
+  orderCoupon?: Prisma.OrderCouponUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderCreateManyInput = {
@@ -545,10 +504,7 @@ export type OrderCreateManyInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   userId?: string | null
   idempotencyKey: string
   createdAt?: Date | string
@@ -566,10 +522,7 @@ export type OrderUpdateManyMutationInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -586,10 +539,7 @@ export type OrderUncheckedUpdateManyInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -622,10 +572,7 @@ export type OrderCountOrderByAggregateInput = {
   taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
-  amountTotal?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  stripeSessionId?: Prisma.SortOrder
-  stripePaymentId?: Prisma.SortOrder
+  totalAmount?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -638,7 +585,7 @@ export type OrderAvgOrderByAggregateInput = {
   taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
-  amountTotal?: Prisma.SortOrder
+  totalAmount?: Prisma.SortOrder
 }
 
 export type OrderMaxOrderByAggregateInput = {
@@ -651,10 +598,7 @@ export type OrderMaxOrderByAggregateInput = {
   taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
-  amountTotal?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  stripeSessionId?: Prisma.SortOrder
-  stripePaymentId?: Prisma.SortOrder
+  totalAmount?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -672,10 +616,7 @@ export type OrderMinOrderByAggregateInput = {
   taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
-  amountTotal?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  stripeSessionId?: Prisma.SortOrder
-  stripePaymentId?: Prisma.SortOrder
+  totalAmount?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -688,7 +629,7 @@ export type OrderSumOrderByAggregateInput = {
   taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
-  amountTotal?: Prisma.SortOrder
+  totalAmount?: Prisma.SortOrder
 }
 
 export type OrderScalarRelationFilter = {
@@ -742,6 +683,14 @@ export type EnumORDER_STATUSFieldUpdateOperationsInput = {
   set?: $Enums.ORDER_STATUS
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type OrderCreateNestedOneWithoutItemsInput = {
   create?: Prisma.XOR<Prisma.OrderCreateWithoutItemsInput, Prisma.OrderUncheckedCreateWithoutItemsInput>
   connectOrCreate?: Prisma.OrderCreateOrConnectWithoutItemsInput
@@ -754,6 +703,20 @@ export type OrderUpdateOneRequiredWithoutItemsNestedInput = {
   upsert?: Prisma.OrderUpsertWithoutItemsInput
   connect?: Prisma.OrderWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutItemsInput, Prisma.OrderUpdateWithoutItemsInput>, Prisma.OrderUncheckedUpdateWithoutItemsInput>
+}
+
+export type OrderCreateNestedOneWithoutOrderCouponInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutOrderCouponInput, Prisma.OrderUncheckedCreateWithoutOrderCouponInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutOrderCouponInput
+  connect?: Prisma.OrderWhereUniqueInput
+}
+
+export type OrderUpdateOneRequiredWithoutOrderCouponNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutOrderCouponInput, Prisma.OrderUncheckedCreateWithoutOrderCouponInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutOrderCouponInput
+  upsert?: Prisma.OrderUpsertWithoutOrderCouponInput
+  connect?: Prisma.OrderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutOrderCouponInput, Prisma.OrderUpdateWithoutOrderCouponInput>, Prisma.OrderUncheckedUpdateWithoutOrderCouponInput>
 }
 
 export type OrderCreateNestedOneWithoutPaymentInput = {
@@ -780,16 +743,14 @@ export type OrderCreateWithoutUserInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   idempotencyKey: string
   createdAt?: Date | string
   updatedAt?: Date | string
   expiresAt?: Date | string | null
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
   payment?: Prisma.PaymentCreateNestedManyWithoutOrderInput
+  orderCoupon?: Prisma.OrderCouponCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutUserInput = {
@@ -802,16 +763,14 @@ export type OrderUncheckedCreateWithoutUserInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   idempotencyKey: string
   createdAt?: Date | string
   updatedAt?: Date | string
   expiresAt?: Date | string | null
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
   payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrderInput
+  orderCoupon?: Prisma.OrderCouponUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutUserInput = {
@@ -853,10 +812,7 @@ export type OrderScalarWhereInput = {
   taxAmount?: Prisma.IntFilter<"Order"> | number
   discountAmount?: Prisma.IntFilter<"Order"> | number
   subtotalAmount?: Prisma.IntFilter<"Order"> | number
-  amountTotal?: Prisma.IntFilter<"Order"> | number
-  currency?: Prisma.StringFilter<"Order"> | string
-  stripeSessionId?: Prisma.StringNullableFilter<"Order"> | string | null
-  stripePaymentId?: Prisma.StringNullableFilter<"Order"> | string | null
+  totalAmount?: Prisma.IntFilter<"Order"> | number
   userId?: Prisma.StringNullableFilter<"Order"> | string | null
   idempotencyKey?: Prisma.StringFilter<"Order"> | string
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
@@ -874,16 +830,14 @@ export type OrderCreateWithoutItemsInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   idempotencyKey: string
   createdAt?: Date | string
   updatedAt?: Date | string
   expiresAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput
   payment?: Prisma.PaymentCreateNestedManyWithoutOrderInput
+  orderCoupon?: Prisma.OrderCouponCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutItemsInput = {
@@ -896,16 +850,14 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   userId?: string | null
   idempotencyKey: string
   createdAt?: Date | string
   updatedAt?: Date | string
   expiresAt?: Date | string | null
   payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrderInput
+  orderCoupon?: Prisma.OrderCouponUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutItemsInput = {
@@ -934,16 +886,14 @@ export type OrderUpdateWithoutItemsInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput
   payment?: Prisma.PaymentUpdateManyWithoutOrderNestedInput
+  orderCoupon?: Prisma.OrderCouponUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutItemsInput = {
@@ -956,15 +906,109 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutOrderNestedInput
+  orderCoupon?: Prisma.OrderCouponUncheckedUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderCreateWithoutOrderCouponInput = {
+  id?: string
+  email?: string | null
+  status?: $Enums.ORDER_STATUS
+  shippingAddress: string
+  billingAddress: string
+  shippingAmount: number
+  taxAmount: number
+  discountAmount: number
+  subtotalAmount: number
+  totalAmount: number
+  idempotencyKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  expiresAt?: Date | string | null
+  user?: Prisma.UserCreateNestedOneWithoutOrdersInput
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutOrderInput
+}
+
+export type OrderUncheckedCreateWithoutOrderCouponInput = {
+  id?: string
+  email?: string | null
+  status?: $Enums.ORDER_STATUS
+  shippingAddress: string
+  billingAddress: string
+  shippingAmount: number
+  taxAmount: number
+  discountAmount: number
+  subtotalAmount: number
+  totalAmount: number
+  userId?: string | null
+  idempotencyKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  expiresAt?: Date | string | null
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrderInput
+}
+
+export type OrderCreateOrConnectWithoutOrderCouponInput = {
+  where: Prisma.OrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderCreateWithoutOrderCouponInput, Prisma.OrderUncheckedCreateWithoutOrderCouponInput>
+}
+
+export type OrderUpsertWithoutOrderCouponInput = {
+  update: Prisma.XOR<Prisma.OrderUpdateWithoutOrderCouponInput, Prisma.OrderUncheckedUpdateWithoutOrderCouponInput>
+  create: Prisma.XOR<Prisma.OrderCreateWithoutOrderCouponInput, Prisma.OrderUncheckedCreateWithoutOrderCouponInput>
+  where?: Prisma.OrderWhereInput
+}
+
+export type OrderUpdateToOneWithWhereWithoutOrderCouponInput = {
+  where?: Prisma.OrderWhereInput
+  data: Prisma.XOR<Prisma.OrderUpdateWithoutOrderCouponInput, Prisma.OrderUncheckedUpdateWithoutOrderCouponInput>
+}
+
+export type OrderUpdateWithoutOrderCouponInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
+  shippingAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  billingAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneWithoutOrdersNestedInput
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderUncheckedUpdateWithoutOrderCouponInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumORDER_STATUSFieldUpdateOperationsInput | $Enums.ORDER_STATUS
+  shippingAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  billingAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   payment?: Prisma.PaymentUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -978,16 +1022,14 @@ export type OrderCreateWithoutPaymentInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   idempotencyKey: string
   createdAt?: Date | string
   updatedAt?: Date | string
   expiresAt?: Date | string | null
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput
+  orderCoupon?: Prisma.OrderCouponCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutPaymentInput = {
@@ -1000,16 +1042,14 @@ export type OrderUncheckedCreateWithoutPaymentInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   userId?: string | null
   idempotencyKey: string
   createdAt?: Date | string
   updatedAt?: Date | string
   expiresAt?: Date | string | null
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput
+  orderCoupon?: Prisma.OrderCouponUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutPaymentInput = {
@@ -1038,16 +1078,14 @@ export type OrderUpdateWithoutPaymentInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
+  orderCoupon?: Prisma.OrderCouponUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutPaymentInput = {
@@ -1060,16 +1098,14 @@ export type OrderUncheckedUpdateWithoutPaymentInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  orderCoupon?: Prisma.OrderCouponUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderCreateManyUserInput = {
@@ -1082,10 +1118,7 @@ export type OrderCreateManyUserInput = {
   taxAmount: number
   discountAmount: number
   subtotalAmount: number
-  amountTotal: number
-  currency?: string
-  stripeSessionId?: string | null
-  stripePaymentId?: string | null
+  totalAmount: number
   idempotencyKey: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1102,16 +1135,14 @@ export type OrderUpdateWithoutUserInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput
   payment?: Prisma.PaymentUpdateManyWithoutOrderNestedInput
+  orderCoupon?: Prisma.OrderCouponUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutUserInput = {
@@ -1124,16 +1155,14 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   payment?: Prisma.PaymentUncheckedUpdateManyWithoutOrderNestedInput
+  orderCoupon?: Prisma.OrderCouponUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateManyWithoutUserInput = {
@@ -1146,10 +1175,7 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  amountTotal?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripePaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1164,11 +1190,13 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
 export type OrderCountOutputType = {
   items: number
   payment: number
+  orderCoupon: number
 }
 
 export type OrderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | OrderCountOutputTypeCountItemsArgs
   payment?: boolean | OrderCountOutputTypeCountPaymentArgs
+  orderCoupon?: boolean | OrderCountOutputTypeCountOrderCouponArgs
 }
 
 /**
@@ -1195,6 +1223,13 @@ export type OrderCountOutputTypeCountPaymentArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.PaymentWhereInput
 }
 
+/**
+ * OrderCountOutputType without action
+ */
+export type OrderCountOutputTypeCountOrderCouponArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderCouponWhereInput
+}
+
 
 export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1206,10 +1241,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   taxAmount?: boolean
   discountAmount?: boolean
   subtotalAmount?: boolean
-  amountTotal?: boolean
-  currency?: boolean
-  stripeSessionId?: boolean
-  stripePaymentId?: boolean
+  totalAmount?: boolean
   userId?: boolean
   idempotencyKey?: boolean
   createdAt?: boolean
@@ -1218,6 +1250,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
   payment?: boolean | Prisma.Order$paymentArgs<ExtArgs>
+  orderCoupon?: boolean | Prisma.Order$orderCouponArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
@@ -1231,10 +1264,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   taxAmount?: boolean
   discountAmount?: boolean
   subtotalAmount?: boolean
-  amountTotal?: boolean
-  currency?: boolean
-  stripeSessionId?: boolean
-  stripePaymentId?: boolean
+  totalAmount?: boolean
   userId?: boolean
   idempotencyKey?: boolean
   createdAt?: boolean
@@ -1253,10 +1283,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   taxAmount?: boolean
   discountAmount?: boolean
   subtotalAmount?: boolean
-  amountTotal?: boolean
-  currency?: boolean
-  stripeSessionId?: boolean
-  stripePaymentId?: boolean
+  totalAmount?: boolean
   userId?: boolean
   idempotencyKey?: boolean
   createdAt?: boolean
@@ -1275,10 +1302,7 @@ export type OrderSelectScalar = {
   taxAmount?: boolean
   discountAmount?: boolean
   subtotalAmount?: boolean
-  amountTotal?: boolean
-  currency?: boolean
-  stripeSessionId?: boolean
-  stripePaymentId?: boolean
+  totalAmount?: boolean
   userId?: boolean
   idempotencyKey?: boolean
   createdAt?: boolean
@@ -1286,11 +1310,12 @@ export type OrderSelectScalar = {
   expiresAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "status" | "shippingAddress" | "billingAddress" | "shippingAmount" | "taxAmount" | "discountAmount" | "subtotalAmount" | "amountTotal" | "currency" | "stripeSessionId" | "stripePaymentId" | "userId" | "idempotencyKey" | "createdAt" | "updatedAt" | "expiresAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "status" | "shippingAddress" | "billingAddress" | "shippingAmount" | "taxAmount" | "discountAmount" | "subtotalAmount" | "totalAmount" | "userId" | "idempotencyKey" | "createdAt" | "updatedAt" | "expiresAt", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
   payment?: boolean | Prisma.Order$paymentArgs<ExtArgs>
+  orderCoupon?: boolean | Prisma.Order$orderCouponArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1306,6 +1331,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     user: Prisma.$UserPayload<ExtArgs> | null
     items: Prisma.$OrderItemPayload<ExtArgs>[]
     payment: Prisma.$PaymentPayload<ExtArgs>[]
+    orderCoupon: Prisma.$OrderCouponPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1317,10 +1343,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     taxAmount: number
     discountAmount: number
     subtotalAmount: number
-    amountTotal: number
-    currency: string
-    stripeSessionId: string | null
-    stripePaymentId: string | null
+    totalAmount: number
     userId: string | null
     idempotencyKey: string
     createdAt: Date
@@ -1723,6 +1746,7 @@ export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Ty
   user<T extends Prisma.Order$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.Order$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payment<T extends Prisma.Order$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$paymentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orderCoupon<T extends Prisma.Order$orderCouponArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$orderCouponArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderCouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1761,10 +1785,7 @@ export interface OrderFieldRefs {
   readonly taxAmount: Prisma.FieldRef<"Order", 'Int'>
   readonly discountAmount: Prisma.FieldRef<"Order", 'Int'>
   readonly subtotalAmount: Prisma.FieldRef<"Order", 'Int'>
-  readonly amountTotal: Prisma.FieldRef<"Order", 'Int'>
-  readonly currency: Prisma.FieldRef<"Order", 'String'>
-  readonly stripeSessionId: Prisma.FieldRef<"Order", 'String'>
-  readonly stripePaymentId: Prisma.FieldRef<"Order", 'String'>
+  readonly totalAmount: Prisma.FieldRef<"Order", 'Int'>
   readonly userId: Prisma.FieldRef<"Order", 'String'>
   readonly idempotencyKey: Prisma.FieldRef<"Order", 'String'>
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>
@@ -2235,6 +2256,30 @@ export type Order$paymentArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
+}
+
+/**
+ * Order.orderCoupon
+ */
+export type Order$orderCouponArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrderCoupon
+   */
+  select?: Prisma.OrderCouponSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrderCoupon
+   */
+  omit?: Prisma.OrderCouponOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderCouponInclude<ExtArgs> | null
+  where?: Prisma.OrderCouponWhereInput
+  orderBy?: Prisma.OrderCouponOrderByWithRelationInput | Prisma.OrderCouponOrderByWithRelationInput[]
+  cursor?: Prisma.OrderCouponWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderCouponScalarFieldEnum | Prisma.OrderCouponScalarFieldEnum[]
 }
 
 /**
