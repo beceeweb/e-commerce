@@ -281,6 +281,7 @@ export const OrderItemScalarFieldEnum = {
   finalUnitPrice: 'finalUnitPrice',
   lineTotalAmount: 'lineTotalAmount',
   productName: 'productName',
+  variantName: 'variantName',
   orderId: 'orderId',
   productId: 'productId',
   variantId: 'variantId',

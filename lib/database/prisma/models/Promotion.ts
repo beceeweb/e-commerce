@@ -201,7 +201,7 @@ export type PromotionGroupByOutputType = {
   id: string
   type: $Enums.PROMOTION_TYPE
   value: number
-  currency: string
+  currency: string | null
   startsAt: Date | null
   endsAt: Date | null
   createdAt: Date
@@ -235,7 +235,7 @@ export type PromotionWhereInput = {
   id?: Prisma.StringFilter<"Promotion"> | string
   type?: Prisma.EnumPROMOTION_TYPEFilter<"Promotion"> | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFilter<"Promotion"> | number
-  currency?: Prisma.StringFilter<"Promotion"> | string
+  currency?: Prisma.StringNullableFilter<"Promotion"> | string | null
   startsAt?: Prisma.DateTimeNullableFilter<"Promotion"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableFilter<"Promotion"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Promotion"> | Date | string
@@ -247,7 +247,7 @@ export type PromotionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   value?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
+  currency?: Prisma.SortOrderInput | Prisma.SortOrder
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   endsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -262,7 +262,7 @@ export type PromotionWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PromotionWhereInput | Prisma.PromotionWhereInput[]
   type?: Prisma.EnumPROMOTION_TYPEFilter<"Promotion"> | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFilter<"Promotion"> | number
-  currency?: Prisma.StringFilter<"Promotion"> | string
+  currency?: Prisma.StringNullableFilter<"Promotion"> | string | null
   startsAt?: Prisma.DateTimeNullableFilter<"Promotion"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableFilter<"Promotion"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Promotion"> | Date | string
@@ -274,7 +274,7 @@ export type PromotionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   value?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
+  currency?: Prisma.SortOrderInput | Prisma.SortOrder
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   endsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -293,7 +293,7 @@ export type PromotionScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Promotion"> | string
   type?: Prisma.EnumPROMOTION_TYPEWithAggregatesFilter<"Promotion"> | $Enums.PROMOTION_TYPE
   value?: Prisma.IntWithAggregatesFilter<"Promotion"> | number
-  currency?: Prisma.StringWithAggregatesFilter<"Promotion"> | string
+  currency?: Prisma.StringNullableWithAggregatesFilter<"Promotion"> | string | null
   startsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Promotion"> | Date | string | null
   endsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Promotion"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Promotion"> | Date | string
@@ -304,7 +304,7 @@ export type PromotionCreateInput = {
   id?: string
   type: $Enums.PROMOTION_TYPE
   value: number
-  currency?: string
+  currency?: string | null
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
@@ -316,7 +316,7 @@ export type PromotionUncheckedCreateInput = {
   id?: string
   type: $Enums.PROMOTION_TYPE
   value: number
-  currency?: string
+  currency?: string | null
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
@@ -328,7 +328,7 @@ export type PromotionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumPROMOTION_TYPEFieldUpdateOperationsInput | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -340,7 +340,7 @@ export type PromotionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumPROMOTION_TYPEFieldUpdateOperationsInput | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,7 +352,7 @@ export type PromotionCreateManyInput = {
   id?: string
   type: $Enums.PROMOTION_TYPE
   value: number
-  currency?: string
+  currency?: string | null
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
@@ -363,7 +363,7 @@ export type PromotionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumPROMOTION_TYPEFieldUpdateOperationsInput | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -374,7 +374,7 @@ export type PromotionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumPROMOTION_TYPEFieldUpdateOperationsInput | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -449,7 +449,7 @@ export type PromotionCreateWithoutPromotionsProductInput = {
   id?: string
   type: $Enums.PROMOTION_TYPE
   value: number
-  currency?: string
+  currency?: string | null
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
@@ -460,7 +460,7 @@ export type PromotionUncheckedCreateWithoutPromotionsProductInput = {
   id?: string
   type: $Enums.PROMOTION_TYPE
   value: number
-  currency?: string
+  currency?: string | null
   startsAt?: Date | string | null
   endsAt?: Date | string | null
   createdAt?: Date | string
@@ -487,7 +487,7 @@ export type PromotionUpdateWithoutPromotionsProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumPROMOTION_TYPEFieldUpdateOperationsInput | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -498,7 +498,7 @@ export type PromotionUncheckedUpdateWithoutPromotionsProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumPROMOTION_TYPEFieldUpdateOperationsInput | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -599,7 +599,7 @@ export type $PromotionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     type: $Enums.PROMOTION_TYPE
     value: number
-    currency: string
+    currency: string | null
     startsAt: Date | null
     endsAt: Date | null
     createdAt: Date

@@ -152,7 +152,7 @@ export type TwoFactorGroupByOutputType = {
   secret: string
   backupCodes: string
   userId: string
-  verified: boolean | null
+  verified: boolean
   _count: TwoFactorCountAggregateOutputType | null
   _min: TwoFactorMinAggregateOutputType | null
   _max: TwoFactorMaxAggregateOutputType | null
@@ -181,7 +181,7 @@ export type TwoFactorWhereInput = {
   secret?: Prisma.StringFilter<"TwoFactor"> | string
   backupCodes?: Prisma.StringFilter<"TwoFactor"> | string
   userId?: Prisma.StringFilter<"TwoFactor"> | string
-  verified?: Prisma.BoolNullableFilter<"TwoFactor"> | boolean | null
+  verified?: Prisma.BoolFilter<"TwoFactor"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -190,7 +190,7 @@ export type TwoFactorOrderByWithRelationInput = {
   secret?: Prisma.SortOrder
   backupCodes?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  verified?: Prisma.SortOrderInput | Prisma.SortOrder
+  verified?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -202,7 +202,7 @@ export type TwoFactorWhereUniqueInput = Prisma.AtLeast<{
   secret?: Prisma.StringFilter<"TwoFactor"> | string
   backupCodes?: Prisma.StringFilter<"TwoFactor"> | string
   userId?: Prisma.StringFilter<"TwoFactor"> | string
-  verified?: Prisma.BoolNullableFilter<"TwoFactor"> | boolean | null
+  verified?: Prisma.BoolFilter<"TwoFactor"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -211,7 +211,7 @@ export type TwoFactorOrderByWithAggregationInput = {
   secret?: Prisma.SortOrder
   backupCodes?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  verified?: Prisma.SortOrderInput | Prisma.SortOrder
+  verified?: Prisma.SortOrder
   _count?: Prisma.TwoFactorCountOrderByAggregateInput
   _max?: Prisma.TwoFactorMaxOrderByAggregateInput
   _min?: Prisma.TwoFactorMinOrderByAggregateInput
@@ -225,14 +225,14 @@ export type TwoFactorScalarWhereWithAggregatesInput = {
   secret?: Prisma.StringWithAggregatesFilter<"TwoFactor"> | string
   backupCodes?: Prisma.StringWithAggregatesFilter<"TwoFactor"> | string
   userId?: Prisma.StringWithAggregatesFilter<"TwoFactor"> | string
-  verified?: Prisma.BoolNullableWithAggregatesFilter<"TwoFactor"> | boolean | null
+  verified?: Prisma.BoolWithAggregatesFilter<"TwoFactor"> | boolean
 }
 
 export type TwoFactorCreateInput = {
   id: string
   secret: string
   backupCodes: string
-  verified?: boolean | null
+  verified?: boolean
   user: Prisma.UserCreateNestedOneWithoutTwofactorsInput
 }
 
@@ -241,14 +241,14 @@ export type TwoFactorUncheckedCreateInput = {
   secret: string
   backupCodes: string
   userId: string
-  verified?: boolean | null
+  verified?: boolean
 }
 
 export type TwoFactorUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   secret?: Prisma.StringFieldUpdateOperationsInput | string
   backupCodes?: Prisma.StringFieldUpdateOperationsInput | string
-  verified?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutTwofactorsNestedInput
 }
 
@@ -257,7 +257,7 @@ export type TwoFactorUncheckedUpdateInput = {
   secret?: Prisma.StringFieldUpdateOperationsInput | string
   backupCodes?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  verified?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type TwoFactorCreateManyInput = {
@@ -265,14 +265,14 @@ export type TwoFactorCreateManyInput = {
   secret: string
   backupCodes: string
   userId: string
-  verified?: boolean | null
+  verified?: boolean
 }
 
 export type TwoFactorUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   secret?: Prisma.StringFieldUpdateOperationsInput | string
   backupCodes?: Prisma.StringFieldUpdateOperationsInput | string
-  verified?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type TwoFactorUncheckedUpdateManyInput = {
@@ -280,7 +280,7 @@ export type TwoFactorUncheckedUpdateManyInput = {
   secret?: Prisma.StringFieldUpdateOperationsInput | string
   backupCodes?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  verified?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type TwoFactorListRelationFilter = {
@@ -363,14 +363,14 @@ export type TwoFactorCreateWithoutUserInput = {
   id: string
   secret: string
   backupCodes: string
-  verified?: boolean | null
+  verified?: boolean
 }
 
 export type TwoFactorUncheckedCreateWithoutUserInput = {
   id: string
   secret: string
   backupCodes: string
-  verified?: boolean | null
+  verified?: boolean
 }
 
 export type TwoFactorCreateOrConnectWithoutUserInput = {
@@ -407,35 +407,35 @@ export type TwoFactorScalarWhereInput = {
   secret?: Prisma.StringFilter<"TwoFactor"> | string
   backupCodes?: Prisma.StringFilter<"TwoFactor"> | string
   userId?: Prisma.StringFilter<"TwoFactor"> | string
-  verified?: Prisma.BoolNullableFilter<"TwoFactor"> | boolean | null
+  verified?: Prisma.BoolFilter<"TwoFactor"> | boolean
 }
 
 export type TwoFactorCreateManyUserInput = {
   id: string
   secret: string
   backupCodes: string
-  verified?: boolean | null
+  verified?: boolean
 }
 
 export type TwoFactorUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   secret?: Prisma.StringFieldUpdateOperationsInput | string
   backupCodes?: Prisma.StringFieldUpdateOperationsInput | string
-  verified?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type TwoFactorUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   secret?: Prisma.StringFieldUpdateOperationsInput | string
   backupCodes?: Prisma.StringFieldUpdateOperationsInput | string
-  verified?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type TwoFactorUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   secret?: Prisma.StringFieldUpdateOperationsInput | string
   backupCodes?: Prisma.StringFieldUpdateOperationsInput | string
-  verified?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -496,7 +496,7 @@ export type $TwoFactorPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     secret: string
     backupCodes: string
     userId: string
-    verified: boolean | null
+    verified: boolean
   }, ExtArgs["result"]["twoFactor"]>
   composites: {}
 }
