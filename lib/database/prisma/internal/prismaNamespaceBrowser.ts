@@ -59,7 +59,7 @@ export const ModelName = {
   Category: 'Category',
   Product: 'Product',
   ProductVariant: 'ProductVariant',
-  ProductImage: 'ProductImage',
+  ProductVariantImage: 'ProductVariantImage',
   Address: 'Address',
   Order: 'Order',
   OrderStatusHistory: 'OrderStatusHistory',
@@ -177,6 +177,7 @@ export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typ
 export const ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  brand: 'brand',
   description: 'description',
   slug: 'slug',
   imageUrl: 'imageUrl',
@@ -193,12 +194,14 @@ export const ProductVariantScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   name: 'name',
+  imageUrl: 'imageUrl',
   slug: 'slug',
   sku: 'sku',
   price: 'price',
   currency: 'currency',
   stockOnHand: 'stockOnHand',
   stockReserved: 'stockReserved',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -206,16 +209,16 @@ export const ProductVariantScalarFieldEnum = {
 export type ProductVariantScalarFieldEnum = (typeof ProductVariantScalarFieldEnum)[keyof typeof ProductVariantScalarFieldEnum]
 
 
-export const ProductImageScalarFieldEnum = {
+export const ProductVariantImageScalarFieldEnum = {
   id: 'id',
   url: 'url',
-  productId: 'productId',
+  productVariantId: 'productVariantId',
   position: 'position',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type ProductImageScalarFieldEnum = (typeof ProductImageScalarFieldEnum)[keyof typeof ProductImageScalarFieldEnum]
+export type ProductVariantImageScalarFieldEnum = (typeof ProductVariantImageScalarFieldEnum)[keyof typeof ProductVariantImageScalarFieldEnum]
 
 
 export const AddressScalarFieldEnum = {
@@ -412,6 +415,7 @@ export const ShipmentScalarFieldEnum = {
   status: 'status',
   shippingCost: 'shippingCost',
   shippedAt: 'shippedAt',
+  shippingMethod: 'shippingMethod',
   deliveredAt: 'deliveredAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -424,6 +428,7 @@ export const CartScalarFieldEnum = {
   id: 'id',
   anonymousId: 'anonymousId',
   userId: 'userId',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

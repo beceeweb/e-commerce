@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model OrderStatusHistory
- * 
+ * Historique des changements de statut d'une commande
  */
 export type OrderStatusHistoryModel = runtime.Types.Result.DefaultSelection<Prisma.$OrderStatusHistoryPayload>
 

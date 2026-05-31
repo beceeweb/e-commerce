@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Promotion
- * 
+ * Promotion automatique appliquée à des produits (% ou montant fixe)
  */
 export type PromotionModel = runtime.Types.Result.DefaultSelection<Prisma.$PromotionPayload>
 
@@ -240,7 +240,7 @@ export type PromotionWhereInput = {
   endsAt?: Prisma.DateTimeNullableFilter<"Promotion"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Promotion"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Promotion"> | Date | string
-  promotionsProduct?: Prisma.PromotionProductListRelationFilter
+  promotionProduct?: Prisma.PromotionProductListRelationFilter
 }
 
 export type PromotionOrderByWithRelationInput = {
@@ -252,7 +252,7 @@ export type PromotionOrderByWithRelationInput = {
   endsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  promotionsProduct?: Prisma.PromotionProductOrderByRelationAggregateInput
+  promotionProduct?: Prisma.PromotionProductOrderByRelationAggregateInput
 }
 
 export type PromotionWhereUniqueInput = Prisma.AtLeast<{
@@ -267,7 +267,7 @@ export type PromotionWhereUniqueInput = Prisma.AtLeast<{
   endsAt?: Prisma.DateTimeNullableFilter<"Promotion"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Promotion"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Promotion"> | Date | string
-  promotionsProduct?: Prisma.PromotionProductListRelationFilter
+  promotionProduct?: Prisma.PromotionProductListRelationFilter
 }, "id">
 
 export type PromotionOrderByWithAggregationInput = {
@@ -309,7 +309,7 @@ export type PromotionCreateInput = {
   endsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  promotionsProduct?: Prisma.PromotionProductCreateNestedManyWithoutPromotionInput
+  promotionProduct?: Prisma.PromotionProductCreateNestedManyWithoutPromotionInput
 }
 
 export type PromotionUncheckedCreateInput = {
@@ -321,7 +321,7 @@ export type PromotionUncheckedCreateInput = {
   endsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  promotionsProduct?: Prisma.PromotionProductUncheckedCreateNestedManyWithoutPromotionInput
+  promotionProduct?: Prisma.PromotionProductUncheckedCreateNestedManyWithoutPromotionInput
 }
 
 export type PromotionUpdateInput = {
@@ -333,7 +333,7 @@ export type PromotionUpdateInput = {
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  promotionsProduct?: Prisma.PromotionProductUpdateManyWithoutPromotionNestedInput
+  promotionProduct?: Prisma.PromotionProductUpdateManyWithoutPromotionNestedInput
 }
 
 export type PromotionUncheckedUpdateInput = {
@@ -345,7 +345,7 @@ export type PromotionUncheckedUpdateInput = {
   endsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  promotionsProduct?: Prisma.PromotionProductUncheckedUpdateManyWithoutPromotionNestedInput
+  promotionProduct?: Prisma.PromotionProductUncheckedUpdateManyWithoutPromotionNestedInput
 }
 
 export type PromotionCreateManyInput = {
@@ -431,21 +431,21 @@ export type EnumPROMOTION_TYPEFieldUpdateOperationsInput = {
   set?: $Enums.PROMOTION_TYPE
 }
 
-export type PromotionCreateNestedOneWithoutPromotionsProductInput = {
-  create?: Prisma.XOR<Prisma.PromotionCreateWithoutPromotionsProductInput, Prisma.PromotionUncheckedCreateWithoutPromotionsProductInput>
-  connectOrCreate?: Prisma.PromotionCreateOrConnectWithoutPromotionsProductInput
+export type PromotionCreateNestedOneWithoutPromotionProductInput = {
+  create?: Prisma.XOR<Prisma.PromotionCreateWithoutPromotionProductInput, Prisma.PromotionUncheckedCreateWithoutPromotionProductInput>
+  connectOrCreate?: Prisma.PromotionCreateOrConnectWithoutPromotionProductInput
   connect?: Prisma.PromotionWhereUniqueInput
 }
 
-export type PromotionUpdateOneRequiredWithoutPromotionsProductNestedInput = {
-  create?: Prisma.XOR<Prisma.PromotionCreateWithoutPromotionsProductInput, Prisma.PromotionUncheckedCreateWithoutPromotionsProductInput>
-  connectOrCreate?: Prisma.PromotionCreateOrConnectWithoutPromotionsProductInput
-  upsert?: Prisma.PromotionUpsertWithoutPromotionsProductInput
+export type PromotionUpdateOneRequiredWithoutPromotionProductNestedInput = {
+  create?: Prisma.XOR<Prisma.PromotionCreateWithoutPromotionProductInput, Prisma.PromotionUncheckedCreateWithoutPromotionProductInput>
+  connectOrCreate?: Prisma.PromotionCreateOrConnectWithoutPromotionProductInput
+  upsert?: Prisma.PromotionUpsertWithoutPromotionProductInput
   connect?: Prisma.PromotionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.PromotionUpdateToOneWithWhereWithoutPromotionsProductInput, Prisma.PromotionUpdateWithoutPromotionsProductInput>, Prisma.PromotionUncheckedUpdateWithoutPromotionsProductInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PromotionUpdateToOneWithWhereWithoutPromotionProductInput, Prisma.PromotionUpdateWithoutPromotionProductInput>, Prisma.PromotionUncheckedUpdateWithoutPromotionProductInput>
 }
 
-export type PromotionCreateWithoutPromotionsProductInput = {
+export type PromotionCreateWithoutPromotionProductInput = {
   id?: string
   type: $Enums.PROMOTION_TYPE
   value: number
@@ -456,7 +456,7 @@ export type PromotionCreateWithoutPromotionsProductInput = {
   updatedAt?: Date | string
 }
 
-export type PromotionUncheckedCreateWithoutPromotionsProductInput = {
+export type PromotionUncheckedCreateWithoutPromotionProductInput = {
   id?: string
   type: $Enums.PROMOTION_TYPE
   value: number
@@ -467,23 +467,23 @@ export type PromotionUncheckedCreateWithoutPromotionsProductInput = {
   updatedAt?: Date | string
 }
 
-export type PromotionCreateOrConnectWithoutPromotionsProductInput = {
+export type PromotionCreateOrConnectWithoutPromotionProductInput = {
   where: Prisma.PromotionWhereUniqueInput
-  create: Prisma.XOR<Prisma.PromotionCreateWithoutPromotionsProductInput, Prisma.PromotionUncheckedCreateWithoutPromotionsProductInput>
+  create: Prisma.XOR<Prisma.PromotionCreateWithoutPromotionProductInput, Prisma.PromotionUncheckedCreateWithoutPromotionProductInput>
 }
 
-export type PromotionUpsertWithoutPromotionsProductInput = {
-  update: Prisma.XOR<Prisma.PromotionUpdateWithoutPromotionsProductInput, Prisma.PromotionUncheckedUpdateWithoutPromotionsProductInput>
-  create: Prisma.XOR<Prisma.PromotionCreateWithoutPromotionsProductInput, Prisma.PromotionUncheckedCreateWithoutPromotionsProductInput>
+export type PromotionUpsertWithoutPromotionProductInput = {
+  update: Prisma.XOR<Prisma.PromotionUpdateWithoutPromotionProductInput, Prisma.PromotionUncheckedUpdateWithoutPromotionProductInput>
+  create: Prisma.XOR<Prisma.PromotionCreateWithoutPromotionProductInput, Prisma.PromotionUncheckedCreateWithoutPromotionProductInput>
   where?: Prisma.PromotionWhereInput
 }
 
-export type PromotionUpdateToOneWithWhereWithoutPromotionsProductInput = {
+export type PromotionUpdateToOneWithWhereWithoutPromotionProductInput = {
   where?: Prisma.PromotionWhereInput
-  data: Prisma.XOR<Prisma.PromotionUpdateWithoutPromotionsProductInput, Prisma.PromotionUncheckedUpdateWithoutPromotionsProductInput>
+  data: Prisma.XOR<Prisma.PromotionUpdateWithoutPromotionProductInput, Prisma.PromotionUncheckedUpdateWithoutPromotionProductInput>
 }
 
-export type PromotionUpdateWithoutPromotionsProductInput = {
+export type PromotionUpdateWithoutPromotionProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumPROMOTION_TYPEFieldUpdateOperationsInput | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFieldUpdateOperationsInput | number
@@ -494,7 +494,7 @@ export type PromotionUpdateWithoutPromotionsProductInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type PromotionUncheckedUpdateWithoutPromotionsProductInput = {
+export type PromotionUncheckedUpdateWithoutPromotionProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumPROMOTION_TYPEFieldUpdateOperationsInput | $Enums.PROMOTION_TYPE
   value?: Prisma.IntFieldUpdateOperationsInput | number
@@ -511,11 +511,11 @@ export type PromotionUncheckedUpdateWithoutPromotionsProductInput = {
  */
 
 export type PromotionCountOutputType = {
-  promotionsProduct: number
+  promotionProduct: number
 }
 
 export type PromotionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  promotionsProduct?: boolean | PromotionCountOutputTypeCountPromotionsProductArgs
+  promotionProduct?: boolean | PromotionCountOutputTypeCountPromotionProductArgs
 }
 
 /**
@@ -531,7 +531,7 @@ export type PromotionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
 /**
  * PromotionCountOutputType without action
  */
-export type PromotionCountOutputTypeCountPromotionsProductArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PromotionCountOutputTypeCountPromotionProductArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PromotionProductWhereInput
 }
 
@@ -545,7 +545,7 @@ export type PromotionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   endsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  promotionsProduct?: boolean | Prisma.Promotion$promotionsProductArgs<ExtArgs>
+  promotionProduct?: boolean | Prisma.Promotion$promotionProductArgs<ExtArgs>
   _count?: boolean | Prisma.PromotionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["promotion"]>
 
@@ -584,7 +584,7 @@ export type PromotionSelectScalar = {
 
 export type PromotionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "value" | "currency" | "startsAt" | "endsAt" | "createdAt" | "updatedAt", ExtArgs["result"]["promotion"]>
 export type PromotionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  promotionsProduct?: boolean | Prisma.Promotion$promotionsProductArgs<ExtArgs>
+  promotionProduct?: boolean | Prisma.Promotion$promotionProductArgs<ExtArgs>
   _count?: boolean | Prisma.PromotionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PromotionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -593,7 +593,7 @@ export type PromotionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $PromotionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Promotion"
   objects: {
-    promotionsProduct: Prisma.$PromotionProductPayload<ExtArgs>[]
+    promotionProduct: Prisma.$PromotionProductPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -998,7 +998,7 @@ readonly fields: PromotionFieldRefs;
  */
 export interface Prisma__PromotionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  promotionsProduct<T extends Prisma.Promotion$promotionsProductArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Promotion$promotionsProductArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PromotionProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  promotionProduct<T extends Prisma.Promotion$promotionProductArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Promotion$promotionProductArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PromotionProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1429,9 +1429,9 @@ export type PromotionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Promotion.promotionsProduct
+ * Promotion.promotionProduct
  */
-export type Promotion$promotionsProductArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Promotion$promotionProductArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the PromotionProduct
    */

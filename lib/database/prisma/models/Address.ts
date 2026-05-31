@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Address
- * 
+ * Adresse de livraison ou de facturation d'un utilisateur
  */
 export type AddressModel = runtime.Types.Result.DefaultSelection<Prisma.$AddressPayload>
 

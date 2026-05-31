@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Category
- * 
+ * Catégorie de produits (ex: vêtements, chaussures)
  */
 export type CategoryModel = runtime.Types.Result.DefaultSelection<Prisma.$CategoryPayload>
 

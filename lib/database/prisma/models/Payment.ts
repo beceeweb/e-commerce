@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Payment
- * 
+ * Tentative de paiement pour une commande (Stripe, etc.)
  */
 export type PaymentModel = runtime.Types.Result.DefaultSelection<Prisma.$PaymentPayload>
 

@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model CouponRedemption
- * 
+ * Utilisation d'un coupon sur une commande (évite les doubles usages)
  */
 export type CouponRedemptionModel = runtime.Types.Result.DefaultSelection<Prisma.$CouponRedemptionPayload>
 

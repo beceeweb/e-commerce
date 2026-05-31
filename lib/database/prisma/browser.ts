@@ -19,121 +19,121 @@ export * as $Enums from './enums'
 export * from './enums';
 /**
  * Model User
- * 
+ * Compte utilisateur (client, worker ou admin)
  */
 export type User = Prisma.UserModel
 /**
  * Model Session
- * 
+ * Session active d'un utilisateur connecté
  */
 export type Session = Prisma.SessionModel
 /**
  * Model Account
- * 
+ * Compte OAuth lié à un utilisateur (Google, GitHub, etc.)
  */
 export type Account = Prisma.AccountModel
 /**
  * Model Verification
- * 
+ * Token temporaire pour vérification d'email ou réinitialisation de mot de passe
  */
 export type Verification = Prisma.VerificationModel
 /**
  * Model TwoFactor
- * 
+ * Configuration 2FA d'un utilisateur (secret TOTP + codes de secours)
  */
 export type TwoFactor = Prisma.TwoFactorModel
 /**
  * Model Category
- * 
+ * Catégorie de produits (ex: vêtements, chaussures)
  */
 export type Category = Prisma.CategoryModel
 /**
  * Model Product
- * 
+ * Produit du catalogue (entité principale sans prix ni stock — voir ProductVariant)
  */
 export type Product = Prisma.ProductModel
 /**
  * Model ProductVariant
- * 
+ * Déclinaison d'un produit avec prix, stock et SKU (ex: taille M rouge)
  */
 export type ProductVariant = Prisma.ProductVariantModel
 /**
- * Model ProductImage
- * 
+ * Model ProductVariantImage
+ * Image associée à une variante de produit (ordonnée par position)
  */
-export type ProductImage = Prisma.ProductImageModel
+export type ProductVariantImage = Prisma.ProductVariantImageModel
 /**
  * Model Address
- * 
+ * Adresse de livraison ou de facturation d'un utilisateur
  */
 export type Address = Prisma.AddressModel
 /**
  * Model Order
- * 
+ * Commande passée par un client (montants en centimes)
  */
 export type Order = Prisma.OrderModel
 /**
  * Model OrderStatusHistory
- * 
+ * Historique des changements de statut d'une commande
  */
 export type OrderStatusHistory = Prisma.OrderStatusHistoryModel
 /**
  * Model OrderItem
- * 
+ * Ligne d'une commande (snapshot du produit/variant au moment de l'achat)
  */
 export type OrderItem = Prisma.OrderItemModel
 /**
  * Model Promotion
- * 
+ * Promotion automatique appliquée à des produits (% ou montant fixe)
  */
 export type Promotion = Prisma.PromotionModel
 /**
  * Model PromotionProduct
- * 
+ * Table de liaison entre une promotion et les produits concernés
  */
 export type PromotionProduct = Prisma.PromotionProductModel
 /**
  * Model Coupon
- * 
+ * Code promo saisi manuellement par le client lors du checkout
  */
 export type Coupon = Prisma.CouponModel
 /**
  * Model CouponRedemption
- * 
+ * Utilisation d'un coupon sur une commande (évite les doubles usages)
  */
 export type CouponRedemption = Prisma.CouponRedemptionModel
 /**
  * Model Payment
- * 
+ * Tentative de paiement pour une commande (Stripe, etc.)
  */
 export type Payment = Prisma.PaymentModel
 /**
  * Model Refund
- * 
+ * Remboursement partiel ou total d'un paiement
  */
 export type Refund = Prisma.RefundModel
 /**
  * Model WebhookEvent
- * 
+ * Événement webhook reçu d'un provider (idempotence — évite le double traitement)
  */
 export type WebhookEvent = Prisma.WebhookEventModel
 /**
  * Model InventoryMovement
- * 
+ * Mouvement de stock sur une variante (réservation, vente, retour, ajustement…)
  */
 export type InventoryMovement = Prisma.InventoryMovementModel
 /**
  * Model Shipment
- * 
+ * Expédition physique d'une commande (numéro de suivi, transporteur)
  */
 export type Shipment = Prisma.ShipmentModel
 /**
  * Model Cart
- * 
+ * Panier d'achat (utilisateur connecté ou anonyme via anonymousId)
  */
 export type Cart = Prisma.CartModel
 /**
  * Model CartItem
- * 
+ * Article dans un panier (variant + quantité)
  */
 export type CartItem = Prisma.CartItemModel

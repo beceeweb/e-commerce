@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model OrderItem
- * 
+ * Ligne d'une commande (snapshot du produit/variant au moment de l'achat)
  */
 export type OrderItemModel = runtime.Types.Result.DefaultSelection<Prisma.$OrderItemPayload>
 

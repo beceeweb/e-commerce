@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Refund
- * 
+ * Remboursement partiel ou total d'un paiement
  */
 export type RefundModel = runtime.Types.Result.DefaultSelection<Prisma.$RefundPayload>
 

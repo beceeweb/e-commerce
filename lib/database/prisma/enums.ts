@@ -85,3 +85,11 @@ export const SHIPMENT_STATUS = {
 } as const
 
 export type SHIPMENT_STATUS = (typeof SHIPMENT_STATUS)[keyof typeof SHIPMENT_STATUS]
+
+
+export const SHIPPING_METHOD = {
+  COLLISSIMO: 'COLLISSIMO',
+  FAST_DELIVERY: 'FAST_DELIVERY'
+} as const
+
+export type SHIPPING_METHOD = (typeof SHIPPING_METHOD)[keyof typeof SHIPPING_METHOD]

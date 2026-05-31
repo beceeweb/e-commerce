@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model InventoryMovement
- * 
+ * Mouvement de stock sur une variante (réservation, vente, retour, ajustement…)
  */
 export type InventoryMovementModel = runtime.Types.Result.DefaultSelection<Prisma.$InventoryMovementPayload>
 

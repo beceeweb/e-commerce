@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model PromotionProduct
- * 
+ * Table de liaison entre une promotion et les produits concernés
  */
 export type PromotionProductModel = runtime.Types.Result.DefaultSelection<Prisma.$PromotionProductPayload>
 
@@ -197,8 +197,8 @@ export type PromotionProductScalarWhereWithAggregatesInput = {
 }
 
 export type PromotionProductCreateInput = {
-  product: Prisma.ProductCreateNestedOneWithoutPromotionsProductInput
-  promotion: Prisma.PromotionCreateNestedOneWithoutPromotionsProductInput
+  product: Prisma.ProductCreateNestedOneWithoutPromotionProductInput
+  promotion: Prisma.PromotionCreateNestedOneWithoutPromotionProductInput
 }
 
 export type PromotionProductUncheckedCreateInput = {
@@ -207,8 +207,8 @@ export type PromotionProductUncheckedCreateInput = {
 }
 
 export type PromotionProductUpdateInput = {
-  product?: Prisma.ProductUpdateOneRequiredWithoutPromotionsProductNestedInput
-  promotion?: Prisma.PromotionUpdateOneRequiredWithoutPromotionsProductNestedInput
+  product?: Prisma.ProductUpdateOneRequiredWithoutPromotionProductNestedInput
+  promotion?: Prisma.PromotionUpdateOneRequiredWithoutPromotionProductNestedInput
 }
 
 export type PromotionProductUncheckedUpdateInput = {
@@ -345,7 +345,7 @@ export type PromotionProductUncheckedUpdateManyWithoutPromotionNestedInput = {
 }
 
 export type PromotionProductCreateWithoutProductInput = {
-  promotion: Prisma.PromotionCreateNestedOneWithoutPromotionsProductInput
+  promotion: Prisma.PromotionCreateNestedOneWithoutPromotionProductInput
 }
 
 export type PromotionProductUncheckedCreateWithoutProductInput = {
@@ -387,7 +387,7 @@ export type PromotionProductScalarWhereInput = {
 }
 
 export type PromotionProductCreateWithoutPromotionInput = {
-  product: Prisma.ProductCreateNestedOneWithoutPromotionsProductInput
+  product: Prisma.ProductCreateNestedOneWithoutPromotionProductInput
 }
 
 export type PromotionProductUncheckedCreateWithoutPromotionInput = {
@@ -425,7 +425,7 @@ export type PromotionProductCreateManyProductInput = {
 }
 
 export type PromotionProductUpdateWithoutProductInput = {
-  promotion?: Prisma.PromotionUpdateOneRequiredWithoutPromotionsProductNestedInput
+  promotion?: Prisma.PromotionUpdateOneRequiredWithoutPromotionProductNestedInput
 }
 
 export type PromotionProductUncheckedUpdateWithoutProductInput = {
@@ -441,7 +441,7 @@ export type PromotionProductCreateManyPromotionInput = {
 }
 
 export type PromotionProductUpdateWithoutPromotionInput = {
-  product?: Prisma.ProductUpdateOneRequiredWithoutPromotionsProductNestedInput
+  product?: Prisma.ProductUpdateOneRequiredWithoutPromotionProductNestedInput
 }
 
 export type PromotionProductUncheckedUpdateWithoutPromotionInput = {

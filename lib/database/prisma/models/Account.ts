@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Account
- * 
+ * Compte OAuth lié à un utilisateur (Google, GitHub, etc.)
  */
 export type AccountModel = runtime.Types.Result.DefaultSelection<Prisma.$AccountPayload>
 

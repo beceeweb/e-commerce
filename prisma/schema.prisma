@@ -18,6 +18,7 @@ enum ROLE {
   CLIENT
 }
 
+/// Compte utilisateur (client, worker ou admin)
 model User {
   id                String             @id
   name              String
@@ -35,12 +36,13 @@ model User {
   cart              Cart?
 
   twoFactorEnabled Boolean?    @default(false)
-  twofactors       TwoFactor[]
+  twoFactors       TwoFactor[]
 
   @@unique([email])
   @@map("user")
 }
 
+/// Session active d'un utilisateur connecté
 model Session {
   id        String   @id
   expiresAt DateTime
@@ -57,6 +59,7 @@ model Session {
   @@map("session")
 }
 
+/// Compte OAuth lié à un utilisateur (Google, GitHub, etc.)
 model Account {
   id                    String    @id
   accountId             String
@@ -77,6 +80,7 @@ model Account {
   @@map("account")
 }
 
+/// Token temporaire pour vérification d'email ou réinitialisation de mot de passe
 model Verification {
   id         String   @id
   identifier String
@@ -89,6 +93,7 @@ model Verification {
   @@map("verification")
 }
 
+/// Configuration 2FA d'un utilisateur (secret TOTP + codes de secours)
 model TwoFactor {
   id          String  @id
   secret      String
@@ -102,6 +107,7 @@ model TwoFactor {
   @@map("twoFactor")
 }
 
+/// Catégorie de produits (ex: vêtements, chaussures)
 model Category {
   id       String    @id @default(cuid())
   name     String
@@ -110,58 +116,68 @@ model Category {
   products Product[]
 }
 
+/// Produit du catalogue (entité principale sans prix ni stock — voir ProductVariant)
 model Product {
-  id                String             @id @default(cuid())
-  name              String
-  description       String?
-  slug              String             @unique
-  imageUrl          String?
-  isActive          Boolean            @default(true)
-  categoryId        String?
-  category          Category?          @relation(fields: [categoryId], references: [id])
-  promotionsProduct PromotionProduct[]
-  productImages     ProductImage[]
-  productVariants   ProductVariant[]
-  orderItems        OrderItem[]
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+  id               String             @id @default(cuid())
+  name             String
+  brand            String?
+  description      String?
+  slug             String             @unique
+  imageUrl         String?
+  isActive         Boolean            @default(true)
+  categoryId       String?
+  category         Category?          @relation(fields: [categoryId], references: [id])
+  promotionProduct PromotionProduct[]
+  productVariants  ProductVariant[]
+  orderItems       OrderItem[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 
   @@index([categoryId])
   @@index([isActive])
 }
 
+/// Déclinaison d'un produit avec prix, stock et SKU (ex: taille M rouge)
 model ProductVariant {
-  id                 String              @id @default(cuid())
-  productId          String
-  product            Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
-  name               String
-  slug               String
-  sku                String?             @unique
-  price              Int
-  currency           String              @default("eur")
-  stockOnHand        Int                 @default(0)
-  stockReserved      Int                 @default(0)
-  orderItems         OrderItem[]
-  inventoryMovements InventoryMovement[]
-  cartItems          CartItem[]
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
+  id                   String                @id @default(cuid())
+  productId            String
+  product              Product               @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name                 String
+  imageUrl             String
+  slug                 String
+  sku                  String?               @unique
+  price                Int
+  currency             String                @default("eur")
+  stockOnHand          Int                   @default(0)
+  stockReserved        Int                   @default(0)
+  isActive             Boolean               @default(true)
+  productVariantImages ProductVariantImage[]
+  orderItems           OrderItem[]
+  inventoryMovements   InventoryMovement[]
+  cartItems            CartItem[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
 
   @@unique([productId, slug])
   @@index([name])
   @@index([productId])
 }
 
-model ProductImage {
-  id        String   @id @default(cuid())
-  url       String
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  position  Int?     @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+/// Image associée à une variante de produit (ordonnée par position)
+model ProductVariantImage {
+  id               String         @id @default(cuid())
+  url              String
+  productVariantId String
+  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  position         Int?           @default(0)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@unique([productVariantId, position])
+  @@index([productVariantId])
 }
 
+/// Adresse de livraison ou de facturation d'un utilisateur
 model Address {
   id                String   @id @default(cuid())
   userId            String
@@ -178,6 +194,8 @@ model Address {
   isDefaultBilling  Boolean  @default(false)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+
+  @@index([userId])
 }
 
 enum ORDER_STATUS {
@@ -193,6 +211,7 @@ enum ORDER_STATUS {
   RETURNED
 }
 
+/// Commande passée par un client (montants en centimes)
 model Order {
   id                 String               @id @default(cuid())
   email              String?
@@ -207,7 +226,7 @@ model Order {
   currency           String               @default("eur")
   userId             String?
   user               User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
-  idempotencyKey     String
+  idempotencyKey     String               @unique
   items              OrderItem[]
   payments           Payment[]
   couponRedemptions  CouponRedemption[]
@@ -218,12 +237,12 @@ model Order {
   updatedAt          DateTime             @updatedAt
   expiresAt          DateTime?
 
-  @@unique([userId, idempotencyKey])
   @@index([userId])
   @@index([email])
   @@index([createdAt])
 }
 
+/// Historique des changements de statut d'une commande
 model OrderStatusHistory {
   id         String        @id @default(cuid())
   orderId    String
@@ -234,6 +253,7 @@ model OrderStatusHistory {
   createdAt  DateTime      @default(now())
 }
 
+/// Ligne d'une commande (snapshot du produit/variant au moment de l'achat)
 model OrderItem {
   id              String          @id @default(cuid())
   quantity        Int
@@ -252,6 +272,10 @@ model OrderItem {
   variant         ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
+
+  @@index([orderId])
+  @@index([productId])
+  @@index([variantId])
 }
 
 enum PROMOTION_TYPE {
@@ -259,18 +283,20 @@ enum PROMOTION_TYPE {
   FIXED
 }
 
+/// Promotion automatique appliquée à des produits (% ou montant fixe)
 model Promotion {
-  id                String             @id @default(cuid())
-  type              PROMOTION_TYPE
-  value             Int
-  currency          String?            @default("eur")
-  startsAt          DateTime?
-  endsAt            DateTime?
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  promotionsProduct PromotionProduct[]
+  id               String             @id @default(cuid())
+  type             PROMOTION_TYPE
+  value            Int
+  currency         String?            @default("eur")
+  startsAt         DateTime?
+  endsAt           DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  promotionProduct PromotionProduct[]
 }
 
+/// Table de liaison entre une promotion et les produits concernés
 model PromotionProduct {
   productId   String
   promotionId String
@@ -280,6 +306,7 @@ model PromotionProduct {
   @@id([productId, promotionId])
 }
 
+/// Code promo saisi manuellement par le client lors du checkout
 model Coupon {
   id               String             @id @default(cuid())
   value            Int
@@ -295,8 +322,11 @@ model Coupon {
   couponRedemption CouponRedemption[]
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
+
+  @@index([isActive])
 }
 
+/// Utilisation d'un coupon sur une commande (évite les doubles usages)
 model CouponRedemption {
   id             String   @id @default(cuid())
   orderId        String
@@ -319,6 +349,7 @@ enum PAYMENT_STATUS {
   REFUNDED
 }
 
+/// Tentative de paiement pour une commande (Stripe, etc.)
 model Payment {
   id                String         @id @default(cuid())
   orderId           String
@@ -343,6 +374,7 @@ enum REFUND_STATUS {
   FAILED
 }
 
+/// Remboursement partiel ou total d'un paiement
 model Refund {
   id               String        @id @default(cuid())
   paymentId        String
@@ -358,6 +390,7 @@ model Refund {
   @@index([paymentId])
 }
 
+/// Événement webhook reçu d'un provider (idempotence — évite le double traitement)
 model WebhookEvent {
   id         String   @id @default(cuid())
   provider   String
@@ -377,6 +410,7 @@ enum INVENTORY_MOVEMENT_TYPE {
   LOST
 }
 
+/// Mouvement de stock sur une variante (réservation, vente, retour, ajustement…)
 model InventoryMovement {
   id        String                  @id @default(cuid())
   variantId String
@@ -398,6 +432,12 @@ enum SHIPMENT_STATUS {
   RETURNED
 }
 
+enum SHIPPING_METHOD {
+  COLLISSIMO
+  FAST_DELIVERY
+}
+
+/// Expédition physique d'une commande (numéro de suivi, transporteur)
 model Shipment {
   id                 String          @id @default(cuid())
   orderId            String
@@ -410,6 +450,7 @@ model Shipment {
   status             SHIPMENT_STATUS @default(PENDING)
   shippingCost       Int             @default(0)
   shippedAt          DateTime?
+  shippingMethod     SHIPPING_METHOD
   deliveredAt        DateTime?
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
@@ -417,16 +458,19 @@ model Shipment {
   @@index([orderId])
 }
 
+/// Panier d'achat (utilisateur connecté ou anonyme via anonymousId)
 model Cart {
   id          String     @id @default(cuid())
   anonymousId String?    @unique
   userId      String?    @unique
   user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   items       CartItem[]
+  expiresAt   DateTime?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// Article dans un panier (variant + quantité)
 model CartItem {
   id        String         @id @default(cuid())
   cartId    String

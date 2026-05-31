@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Coupon
- * 
+ * Code promo saisi manuellement par le client lors du checkout
  */
 export type CouponModel = runtime.Types.Result.DefaultSelection<Prisma.$CouponPayload>
 

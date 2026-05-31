@@ -392,6 +392,13 @@ export type EnumSHIPMENT_STATUSFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumSHIPMENT_STATUSFilter<$PrismaModel> | $Enums.SHIPMENT_STATUS
 }
 
+export type EnumSHIPPING_METHODFilter<$PrismaModel = never> = {
+  equals?: $Enums.SHIPPING_METHOD | Prisma.EnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  in?: $Enums.SHIPPING_METHOD[] | Prisma.ListEnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SHIPPING_METHOD[] | Prisma.ListEnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSHIPPING_METHODFilter<$PrismaModel> | $Enums.SHIPPING_METHOD
+}
+
 export type EnumSHIPMENT_STATUSWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.SHIPMENT_STATUS | Prisma.EnumSHIPMENT_STATUSFieldRefInput<$PrismaModel>
   in?: $Enums.SHIPMENT_STATUS[] | Prisma.ListEnumSHIPMENT_STATUSFieldRefInput<$PrismaModel>
@@ -400,6 +407,16 @@ export type EnumSHIPMENT_STATUSWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumSHIPMENT_STATUSFilter<$PrismaModel>
   _max?: Prisma.NestedEnumSHIPMENT_STATUSFilter<$PrismaModel>
+}
+
+export type EnumSHIPPING_METHODWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SHIPPING_METHOD | Prisma.EnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  in?: $Enums.SHIPPING_METHOD[] | Prisma.ListEnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SHIPPING_METHOD[] | Prisma.ListEnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSHIPPING_METHODWithAggregatesFilter<$PrismaModel> | $Enums.SHIPPING_METHOD
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSHIPPING_METHODFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSHIPPING_METHODFilter<$PrismaModel>
 }
 
 export type NestedStringFilter<$PrismaModel = never> = {
@@ -766,6 +783,13 @@ export type NestedEnumSHIPMENT_STATUSFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumSHIPMENT_STATUSFilter<$PrismaModel> | $Enums.SHIPMENT_STATUS
 }
 
+export type NestedEnumSHIPPING_METHODFilter<$PrismaModel = never> = {
+  equals?: $Enums.SHIPPING_METHOD | Prisma.EnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  in?: $Enums.SHIPPING_METHOD[] | Prisma.ListEnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SHIPPING_METHOD[] | Prisma.ListEnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSHIPPING_METHODFilter<$PrismaModel> | $Enums.SHIPPING_METHOD
+}
+
 export type NestedEnumSHIPMENT_STATUSWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.SHIPMENT_STATUS | Prisma.EnumSHIPMENT_STATUSFieldRefInput<$PrismaModel>
   in?: $Enums.SHIPMENT_STATUS[] | Prisma.ListEnumSHIPMENT_STATUSFieldRefInput<$PrismaModel>
@@ -774,6 +798,16 @@ export type NestedEnumSHIPMENT_STATUSWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumSHIPMENT_STATUSFilter<$PrismaModel>
   _max?: Prisma.NestedEnumSHIPMENT_STATUSFilter<$PrismaModel>
+}
+
+export type NestedEnumSHIPPING_METHODWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SHIPPING_METHOD | Prisma.EnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  in?: $Enums.SHIPPING_METHOD[] | Prisma.ListEnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SHIPPING_METHOD[] | Prisma.ListEnumSHIPPING_METHODFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSHIPPING_METHODWithAggregatesFilter<$PrismaModel> | $Enums.SHIPPING_METHOD
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSHIPPING_METHODFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSHIPPING_METHODFilter<$PrismaModel>
 }
 
 

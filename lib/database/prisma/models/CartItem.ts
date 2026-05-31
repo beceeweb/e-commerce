@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model CartItem
- * 
+ * Article dans un panier (variant + quantité)
  */
 export type CartItemModel = runtime.Types.Result.DefaultSelection<Prisma.$CartItemPayload>
 

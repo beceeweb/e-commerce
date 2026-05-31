@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model TwoFactor
- * 
+ * Configuration 2FA d'un utilisateur (secret TOTP + codes de secours)
  */
 export type TwoFactorModel = runtime.Types.Result.DefaultSelection<Prisma.$TwoFactorPayload>
 
@@ -233,7 +233,7 @@ export type TwoFactorCreateInput = {
   secret: string
   backupCodes: string
   verified?: boolean
-  user: Prisma.UserCreateNestedOneWithoutTwofactorsInput
+  user: Prisma.UserCreateNestedOneWithoutTwoFactorsInput
 }
 
 export type TwoFactorUncheckedCreateInput = {
@@ -249,7 +249,7 @@ export type TwoFactorUpdateInput = {
   secret?: Prisma.StringFieldUpdateOperationsInput | string
   backupCodes?: Prisma.StringFieldUpdateOperationsInput | string
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  user?: Prisma.UserUpdateOneRequiredWithoutTwofactorsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTwoFactorsNestedInput
 }
 
 export type TwoFactorUncheckedUpdateInput = {

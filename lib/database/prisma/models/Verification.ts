@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Verification
- * 
+ * Token temporaire pour vérification d'email ou réinitialisation de mot de passe
  */
 export type VerificationModel = runtime.Types.Result.DefaultSelection<Prisma.$VerificationPayload>
 
