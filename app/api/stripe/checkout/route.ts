@@ -1,8 +1,7 @@
 import { stripe } from "@/lib/payment/stripe";
+import Stripe from "stripe";
 import { auth } from "@/lib/auth/auth";
 import { NextRequest, NextResponse } from "next/server";
-// NOTE: ajuste le chemin du namespace `Prisma` vers ton client généré si besoin
-// (avec le generator `prisma-client` à output custom, il est exporté depuis le dossier de sortie).
 import { prisma } from "@/lib/database/prisma";
 import { Prisma } from "@/lib/database/prisma/client";
 
@@ -20,11 +19,34 @@ class CheckoutError extends Error {
   }
 }
 
+const lockOrder = <T extends { variant: { id: string } }>(items: T[]) =>
+  [...items].sort((a, b) => a.variant.id.localeCompare(b.variant.id));
+
+// Erreur Stripe transitoire (réseau / rate-limit / 5xx) -> l'order reste retentable.
+// NB : Stripe.errors est statique sur la CLASSE importée, pas sur l'instance `stripe`.
+function isRetryable(e: unknown) {
+  return (
+    e instanceof Stripe.errors.StripeConnectionError ||
+    e instanceof Stripe.errors.StripeAPIError ||
+    e instanceof Stripe.errors.StripeRateLimitError
+  );
+}
+
 type OrderWithItems = Prisma.OrderGetPayload<{ include: { items: true } }>;
 type OrderResume = Prisma.OrderGetPayload<{
   include: { items: true; payments: true };
 }>;
 type EnrichedItem = { variant: { id: string }; quantity: number };
+
+// Reconstruit les EnrichedItem depuis le snapshot persisté d'un order (pour releaseStock / resume).
+function itemsFromOrder(order: OrderWithItems): EnrichedItem[] {
+  return order.items.map((it) => {
+    if(!it.variantId){
+      throw new CheckoutError('Variant introuvable', 500)
+    }
+    return {variant: { id: it.variantId }, quantity: it.quantity,}
+});
+}
 
 // Crée une NOUVELLE tentative de paiement (1 payment = 1 tentative) et la session Stripe.
 // La clé d'idempotence Stripe est dérivée de payment.id -> jamais de collision avec une session expirée cachée.
@@ -75,7 +97,57 @@ async function startStripeSession(order: OrderWithItems) {
   return checkoutSession;
 }
 
-// Reprise d'un order déjà existant pour ce idempotencyKey. Retourne une URL à renvoyer au client.
+// Libère le stock réservé et marque l'order + ses paiements en échec.
+// Le updateMany conditionnel sur status=PENDING sert de claim atomique : si un autre acteur
+// (webhook, reaper) a déjà fait transitionner l'order, count===0 -> on ne touche à rien.
+async function releaseStock(orderId: string, items: EnrichedItem[]) {
+  await prisma.$transaction(async (tx) => {
+    const claimed = await tx.order.updateMany({
+      where: { id: orderId, status: "PENDING" },
+      data: { status: "FAILED" },
+    });
+    if (claimed.count === 0) return; // déjà PAID/EXPIRED/FAILED -> on ne touche à rien
+
+    for (const { variant, quantity } of lockOrder(items)) {
+      await tx.productVariant.update({
+        where: { id: variant.id },
+        data: { stockReserved: { decrement: quantity } },
+      });
+    }
+
+    // updateMany : ne throw pas si aucune ligne payment n'existe encore.
+    await tx.payment.updateMany({
+      where: { orderId },
+      data: { status: "FAILED" },
+    });
+  });
+}
+
+// Crée la session et traduit toutes les pannes en CheckoutError (mappées par le catch externe).
+// - transitoire  -> 503, on ne touche à rien (order PENDING, stock réservé, retry via resume)
+// - déterministe -> release + FAILED puis 500
+async function startSessionOrFail(order: OrderWithItems,items: EnrichedItem[]): Promise<string> {
+  let cs;
+  try {
+    cs = await startStripeSession(order);
+  } catch (e) {
+    if (isRetryable(e)) {
+      throw new CheckoutError(
+        "Service de paiement momentanément indisponible, réessayez.",
+        503
+      );
+    }
+    await releaseStock(order.id, items); // erreur déterministe -> terminal
+    throw e; // -> 500 générique
+  }
+  if (!cs.url) {
+    await releaseStock(order.id, items);
+    throw new CheckoutError("Impossible de créer la session Stripe", 500);
+  }
+  return cs.url;
+}
+
+// Reprise d'un order déjà existant pour cette idempotencyKey. Retourne une URL à renvoyer au client.
 async function resumeExistingOrder(order: OrderResume): Promise<string> {
   if (order.status === "PAID") {
     return `${APP_URL}/checkout/success?order_id=${order.id}`;
@@ -105,47 +177,25 @@ async function resumeExistingOrder(order: OrderResume): Promise<string> {
 
   // Soit aucune session exploitable (crash avant Stripe), soit session expirée -> nouvelle tentative.
   // Le stock est déjà réservé sur cet order PENDING, on ne le réserve donc pas à nouveau.
-  const cs = await startStripeSession(order);
-  if (!cs.url) {
-    throw new CheckoutError("Impossible de créer la session Stripe", 500);
-  }
-  return cs.url;
-}
-
-// Libère le stock réservé et marque l'order + ses paiements en échec (post-commit Stripe échoué).
-async function releaseStock(orderId: string, items: EnrichedItem[]) {
-  await prisma.$transaction(async (tx) => {
-    for (const { variant, quantity } of items) {
-      await tx.productVariant.update({
-        where: { id: variant.id },
-        data: { stockReserved: { decrement: quantity } },
-      });
-    }
-    await tx.order.update({
-      where: { id: orderId },
-      data: { status: "FAILED" },
-    });
-    // updateMany : ne throw pas si aucune ligne payment n'existe encore.
-    await tx.payment.updateMany({
-      where: { orderId },
-      data: { status: "FAILED" },
-    });
-  });
+  return startSessionOrFail(order, itemsFromOrder(order));
 }
 
 export async function POST(req: NextRequest) {
   try {
+    // On vérifie la session
     const session = await auth.api.getSession({ headers: req.headers });
     if (!session) {
       return NextResponse.json({ error: "Accès interdit" }, { status: 401 });
     }
 
+    // On récupère les éléments
     const body = await req.json();
     const items: CheckoutItem[] = body.items;
     const shippingAddress = body.shippingAddress;
     const billingAddress = body.billingAddress;
     const idempotencyKey: string | undefined = body.idempotencyKey;
 
+    // On vérifie la clé
     if (!idempotencyKey) {
       return NextResponse.json(
         { error: "Idempotency key manquante" },
@@ -154,15 +204,15 @@ export async function POST(req: NextRequest) {
     }
 
     // --- REPRISE : un order existe déjà pour cette clé ? ---
+    // Lookup scopé au user via le compound @@unique([userId, idempotencyKey]) :
+    // on ne peut récupérer que ses propres orders, pas de garde d'ownership nécessaire.
     const existingOrder = await prisma.order.findUnique({
-      where: { idempotencyKey }, // idempotencyKey est @unique ; userId servirait de filtre défensif optionnel.
+      where: {
+        userId_idempotencyKey: { userId: session.user.id, idempotencyKey },
+      },
       include: { items: true, payments: true },
     });
     if (existingOrder) {
-      // Garde-fou : on ne reprend que les commandes du propriétaire.
-      if (existingOrder.userId && existingOrder.userId !== session.user.id) {
-        return NextResponse.json({ error: "Accès interdit" }, { status: 403 });
-      }
       const url = await resumeExistingOrder(existingOrder);
       return NextResponse.json({ url });
     }
@@ -237,7 +287,7 @@ export async function POST(req: NextRequest) {
     let order: OrderWithItems;
     try {
       order = await prisma.$transaction(async (tx) => {
-        for (const { variant, quantity } of enrichedItems) {
+        for (const { variant, quantity } of lockOrder(enrichedItems)) {
           const updatedCount = await tx.$executeRaw`
             UPDATE "ProductVariant"
             SET "stockReserved" = "stockReserved" + ${quantity}
@@ -284,14 +334,20 @@ export async function POST(req: NextRequest) {
         });
       });
     } catch (e) {
-      // Course concurrente : une autre requête a déjà créé l'order pour ce idempotencyKey.
+      // Course concurrente : une autre requête a déjà créé l'order pour cette idempotencyKey.
       // Le stock réservé dans CETTE transaction a été rollback automatiquement.
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
-        e.code === "P2002"
+        e.code === "P2002" &&
+        // on ne traite comme "course" que la violation de la clé d'idempotence
+        (Array.isArray(e.meta?.target)
+          ? (e.meta?.target as string[]).includes("idempotencyKey")
+          : true)
       ) {
         const winner = await prisma.order.findUnique({
-          where: { idempotencyKey },
+          where: {
+            userId_idempotencyKey: { userId: session.user.id, idempotencyKey },
+          },
           include: { items: true, payments: true },
         });
         if (winner) {
@@ -303,26 +359,16 @@ export async function POST(req: NextRequest) {
     }
 
     // --- Création de la session Stripe (hors transaction DB) ---
-    let checkoutSession;
-    try {
-      checkoutSession = await startStripeSession(order);
-    } catch (error) {
-      await releaseStock(order.id, enrichedItems);
-      throw error;
-    }
-
-    if (!checkoutSession.url) {
-      await releaseStock(order.id, enrichedItems);
-      return NextResponse.json(
-        { error: "Impossible de créer la session Stripe" },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ url: checkoutSession.url });
+    // startSessionOrFail throw une CheckoutError (503/500) ou l'erreur brute (après release) :
+    // tout est mappé par le catch externe ci-dessous.
+    const url = await startSessionOrFail(order, enrichedItems);
+    return NextResponse.json({ url });
   } catch (error) {
     if (error instanceof CheckoutError) {
-      return NextResponse.json({ error: error.message }, { status: error.status });
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.status }
+      );
     }
     console.error(error);
     return NextResponse.json(

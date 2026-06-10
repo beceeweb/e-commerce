@@ -349,7 +349,7 @@ export type OrderOrderByWithRelationInput = {
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  idempotencyKey?: string
+  userId_idempotencyKey?: Prisma.OrderUserIdIdempotencyKeyCompoundUniqueInput
   AND?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   OR?: Prisma.OrderWhereInput[]
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
@@ -364,6 +364,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   totalAmount?: Prisma.IntFilter<"Order"> | number
   currency?: Prisma.StringFilter<"Order"> | string
   userId?: Prisma.StringNullableFilter<"Order"> | string | null
+  idempotencyKey?: Prisma.StringFilter<"Order"> | string
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
@@ -374,7 +375,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   inventoryMovements?: Prisma.InventoryMovementListRelationFilter
   shipments?: Prisma.ShipmentListRelationFilter
   orderStatusHistory?: Prisma.OrderStatusHistoryListRelationFilter
-}, "id" | "idempotencyKey">
+}, "id" | "userId_idempotencyKey">
 
 export type OrderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -586,6 +587,11 @@ export type OrderListRelationFilter = {
 
 export type OrderOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type OrderUserIdIdempotencyKeyCompoundUniqueInput = {
+  userId: string
+  idempotencyKey: string
 }
 
 export type OrderCountOrderByAggregateInput = {

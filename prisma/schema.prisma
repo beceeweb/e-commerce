@@ -196,7 +196,6 @@ model Address {
 enum ORDER_STATUS {
   PENDING
   PAID
-  FULFILLED
   SHIPPED
   DELIVERED
   FAILED
@@ -221,7 +220,7 @@ model Order {
   currency           String               @default("eur")
   userId             String?
   user               User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
-  idempotencyKey     String               @unique
+  idempotencyKey     String               
   items              OrderItem[]
   payments           Payment[]
   couponRedemptions  CouponRedemption[]
@@ -235,6 +234,7 @@ model Order {
   @@index([userId])
   @@index([email])
   @@index([createdAt])
+  @@unique([userId, idempotencyKey])
 }
 
 /// Historique des changements de statut d'une commande

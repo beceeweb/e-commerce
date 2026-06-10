@@ -21,7 +21,6 @@ export type ROLE = (typeof ROLE)[keyof typeof ROLE]
 export const ORDER_STATUS = {
   PENDING: 'PENDING',
   PAID: 'PAID',
-  FULFILLED: 'FULFILLED',
   SHIPPED: 'SHIPPED',
   DELIVERED: 'DELIVERED',
   FAILED: 'FAILED',
