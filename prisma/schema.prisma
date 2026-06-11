@@ -281,7 +281,7 @@ enum PROMOTION_TYPE {
 /// Promotion automatique appliquée à des produits (% ou montant fixe)
 model Promotion {
   id               String             @id @default(cuid())
-  name String
+  name             String
   type             PROMOTION_TYPE
   value            Int
   currency         String?            @default("eur")
@@ -487,7 +487,12 @@ model AuditLog {
   entity    String?
   entityId  String?
   userId    String?
-  user      User?    @relation(fields: [userId], references: [id], onDelete: SetDefault)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   metadata  Json?
   createdAt DateTime @default(now())
+
+  @@index([event])
+  @@index([entity, entityId])
+  @@index([userId])
+  @@index([createdAt])
 }

@@ -297,6 +297,7 @@ export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof t
 
 export const PromotionScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   type: 'type',
   value: 'value',
   currency: 'currency',

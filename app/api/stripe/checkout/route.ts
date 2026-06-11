@@ -6,6 +6,8 @@ import { prisma } from "@/lib/database/prisma";
 import {itemsFromOrder,lockOrder,releaseStock,ReservedItem,} from "@/lib/payment/stock";
 import { Prisma, Promotion, SHIPPING_METHOD } from "@/lib/database/prisma/client";
 import * as Sentry from '@sentry/nextjs'
+import { Coupon } from '../../../../lib/database/prisma/models/Coupon';
+import { number } from "zod";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -25,7 +27,7 @@ class CheckoutError extends Error {
 // Promotions (par produit, niveau ligne)
 // ---------------------------------------------------------------------------
 // On verifie si la promo est active
-function isPromotionActive(promotion: Promotion, now = new Date()) {
+function isPromotionActive(promotion: Promotion | Coupon, now = new Date()) {
   const hasStarted = !promotion.startsAt || promotion.startsAt <= now;
   const hasNotEnded = !promotion.endsAt || promotion.endsAt >= now;
   return hasStarted && hasNotEnded;
@@ -346,15 +348,11 @@ export async function POST(req: NextRequest) {
         throw new CheckoutError(`Stock insuffisant pour ${variant.product.name}`);
       }
 
-      // On recupere les promos de chaque variant. 
+      // On recupere les promos de chaque variant, filtre les actives, et recupere la plus importante. 
       const activePromotion = variant.product.promotionProduct
         .map((pp) => pp.promotion)
         .filter((p) => isPromotionActive(p, now))
-        .sort(
-          (a, b) =>
-            getPromotionDiscountAmount(variant.price, b) -
-            getPromotionDiscountAmount(variant.price, a)
-        )[0];
+        .sort( (a, b) => getPromotionDiscountAmount(variant.price, b) - getPromotionDiscountAmount(variant.price, a))[0];
 
       const unitPrice = variant.price;
       const discountAmount = getPromotionDiscountAmount(unitPrice, activePromotion);
@@ -389,18 +387,24 @@ export async function POST(req: NextRequest) {
     // renvoie le 1er coupon de la table). Cap sur les produits, surface une erreur si invalide.
     let couponEffective = 0;
     if (typeof couponCode === "string" && couponCode.trim() !== "") {
-      const coupon = await prisma.coupon.findFirst({ where: { code: couponCode } });
+      const coupon = await prisma.coupon.findFirst({ where: { code: couponCode.trim() } });
       // TODO: valider selon ton schéma Coupon -> fenêtre active, usage max, montant min, type.
-      if (!coupon) throw new CheckoutError("Code promo invalide");
-      // Hypothèse : coupon.value = montant fixe en centimes. Coupons en % -> à gérer ici.
+      if (!coupon || isPromotionActive(coupon, now)) throw new CheckoutError("Code promo invalide");
+      const isUsed = await prisma.couponRedemption.count({
+        where:{
+          userId: session.user.id,
+          couponId: coupon.id,
+        }
+      })
+      if(coupon.maxUsesPerUser !== null && isUsed > coupon.maxUsesPerUser) throw new CheckoutError('Coupon déjà utilisé')
+      if(coupon.type ==='PERCENTAGE'){
+        couponEffective = Math.min(coupon.value - coupon.value*discountedItemsSubtotal, discountedItemsSubtotal)
+      }
       couponEffective = Math.min(coupon.value, discountedItemsSubtotal);
     }
 
     const discountAmount = promoDiscountTotal + couponEffective;
-    const totalAmount = Math.max(
-      0,
-      subtotalAmount + shippingAmount - discountAmount
-    );
+    const totalAmount = Math.max(0, subtotalAmount + shippingAmount - discountAmount);
 
     // --- Réservation atomique du stock + création de l'order ---
     let order: OrderWithItems;
