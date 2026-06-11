@@ -161,3 +161,8 @@ export type Cart = Prisma.CartModel
  * Article dans un panier (variant + quantité)
  */
 export type CartItem = Prisma.CartItemModel
+/**
+ * Model AuditLog
+ * 
+ */
+export type AuditLog = Prisma.AuditLogModel

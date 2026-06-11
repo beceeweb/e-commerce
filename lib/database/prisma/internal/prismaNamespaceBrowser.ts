@@ -74,7 +74,8 @@ export const ModelName = {
   InventoryMovement: 'InventoryMovement',
   Shipment: 'Shipment',
   Cart: 'Cart',
-  CartItem: 'CartItem'
+  CartItem: 'CartItem',
+  AuditLog: 'AuditLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -248,7 +249,6 @@ export const OrderScalarFieldEnum = {
   shippingAddress: 'shippingAddress',
   billingAddress: 'billingAddress',
   shippingAmount: 'shippingAmount',
-  taxAmount: 'taxAmount',
   discountAmount: 'discountAmount',
   subtotalAmount: 'subtotalAmount',
   totalAmount: 'totalAmount',
@@ -448,6 +448,19 @@ export const CartItemScalarFieldEnum = {
 export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typeof CartItemScalarFieldEnum]
 
 
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  event: 'event',
+  entity: 'entity',
+  entityId: 'entityId',
+  userId: 'userId',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -461,6 +474,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {

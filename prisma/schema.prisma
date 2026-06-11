@@ -29,6 +29,7 @@ model User {
   addresses         Address[]
   couponRedemptions CouponRedemption[]
   cart              Cart?
+  auditLogs         AuditLog[]
 
   twoFactorEnabled Boolean?    @default(false)
   twoFactors       TwoFactor[]
@@ -213,14 +214,13 @@ model Order {
   shippingAddress    Json
   billingAddress     Json
   shippingAmount     Int
-  taxAmount          Int
   discountAmount     Int
   subtotalAmount     Int
   totalAmount        Int
   currency           String               @default("eur")
   userId             String?
   user               User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
-  idempotencyKey     String               
+  idempotencyKey     String
   items              OrderItem[]
   payments           Payment[]
   couponRedemptions  CouponRedemption[]
@@ -231,10 +231,10 @@ model Order {
   updatedAt          DateTime             @updatedAt
   expiresAt          DateTime?
 
+  @@unique([userId, idempotencyKey])
   @@index([userId])
   @@index([email])
   @@index([createdAt])
-  @@unique([userId, idempotencyKey])
 }
 
 /// Historique des changements de statut d'une commande
@@ -281,6 +281,7 @@ enum PROMOTION_TYPE {
 /// Promotion automatique appliquée à des produits (% ou montant fixe)
 model Promotion {
   id               String             @id @default(cuid())
+  name String
   type             PROMOTION_TYPE
   value            Int
   currency         String?            @default("eur")
@@ -341,6 +342,7 @@ enum PAYMENT_STATUS {
   PENDING
   SUCCEEDED
   FAILED
+  EXPIRED
   REFUNDED
 }
 
@@ -477,4 +479,15 @@ model CartItem {
   updatedAt DateTime       @updatedAt
 
   @@unique([cartId, variantId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  event     String
+  entity    String?
+  entityId  String?
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetDefault)
+  metadata  Json?
+  createdAt DateTime @default(now())
 }

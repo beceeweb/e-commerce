@@ -28,7 +28,6 @@ export type AggregateOrder = {
 
 export type OrderAvgAggregateOutputType = {
   shippingAmount: number | null
-  taxAmount: number | null
   discountAmount: number | null
   subtotalAmount: number | null
   totalAmount: number | null
@@ -36,7 +35,6 @@ export type OrderAvgAggregateOutputType = {
 
 export type OrderSumAggregateOutputType = {
   shippingAmount: number | null
-  taxAmount: number | null
   discountAmount: number | null
   subtotalAmount: number | null
   totalAmount: number | null
@@ -47,7 +45,6 @@ export type OrderMinAggregateOutputType = {
   email: string | null
   status: $Enums.ORDER_STATUS | null
   shippingAmount: number | null
-  taxAmount: number | null
   discountAmount: number | null
   subtotalAmount: number | null
   totalAmount: number | null
@@ -64,7 +61,6 @@ export type OrderMaxAggregateOutputType = {
   email: string | null
   status: $Enums.ORDER_STATUS | null
   shippingAmount: number | null
-  taxAmount: number | null
   discountAmount: number | null
   subtotalAmount: number | null
   totalAmount: number | null
@@ -83,7 +79,6 @@ export type OrderCountAggregateOutputType = {
   shippingAddress: number
   billingAddress: number
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -99,7 +94,6 @@ export type OrderCountAggregateOutputType = {
 
 export type OrderAvgAggregateInputType = {
   shippingAmount?: true
-  taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
   totalAmount?: true
@@ -107,7 +101,6 @@ export type OrderAvgAggregateInputType = {
 
 export type OrderSumAggregateInputType = {
   shippingAmount?: true
-  taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
   totalAmount?: true
@@ -118,7 +111,6 @@ export type OrderMinAggregateInputType = {
   email?: true
   status?: true
   shippingAmount?: true
-  taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
   totalAmount?: true
@@ -135,7 +127,6 @@ export type OrderMaxAggregateInputType = {
   email?: true
   status?: true
   shippingAmount?: true
-  taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
   totalAmount?: true
@@ -154,7 +145,6 @@ export type OrderCountAggregateInputType = {
   shippingAddress?: true
   billingAddress?: true
   shippingAmount?: true
-  taxAmount?: true
   discountAmount?: true
   subtotalAmount?: true
   totalAmount?: true
@@ -260,7 +250,6 @@ export type OrderGroupByOutputType = {
   shippingAddress: runtime.JsonValue
   billingAddress: runtime.JsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -302,7 +291,6 @@ export type OrderWhereInput = {
   shippingAddress?: Prisma.JsonFilter<"Order">
   billingAddress?: Prisma.JsonFilter<"Order">
   shippingAmount?: Prisma.IntFilter<"Order"> | number
-  taxAmount?: Prisma.IntFilter<"Order"> | number
   discountAmount?: Prisma.IntFilter<"Order"> | number
   subtotalAmount?: Prisma.IntFilter<"Order"> | number
   totalAmount?: Prisma.IntFilter<"Order"> | number
@@ -328,7 +316,6 @@ export type OrderOrderByWithRelationInput = {
   shippingAddress?: Prisma.SortOrder
   billingAddress?: Prisma.SortOrder
   shippingAmount?: Prisma.SortOrder
-  taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -358,7 +345,6 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   shippingAddress?: Prisma.JsonFilter<"Order">
   billingAddress?: Prisma.JsonFilter<"Order">
   shippingAmount?: Prisma.IntFilter<"Order"> | number
-  taxAmount?: Prisma.IntFilter<"Order"> | number
   discountAmount?: Prisma.IntFilter<"Order"> | number
   subtotalAmount?: Prisma.IntFilter<"Order"> | number
   totalAmount?: Prisma.IntFilter<"Order"> | number
@@ -384,7 +370,6 @@ export type OrderOrderByWithAggregationInput = {
   shippingAddress?: Prisma.SortOrder
   billingAddress?: Prisma.SortOrder
   shippingAmount?: Prisma.SortOrder
-  taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -411,7 +396,6 @@ export type OrderScalarWhereWithAggregatesInput = {
   shippingAddress?: Prisma.JsonWithAggregatesFilter<"Order">
   billingAddress?: Prisma.JsonWithAggregatesFilter<"Order">
   shippingAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
-  taxAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
   discountAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
   subtotalAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
   totalAmount?: Prisma.IntWithAggregatesFilter<"Order"> | number
@@ -430,7 +414,6 @@ export type OrderCreateInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -455,7 +438,6 @@ export type OrderUncheckedCreateInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -480,7 +462,6 @@ export type OrderUpdateInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -505,7 +486,6 @@ export type OrderUncheckedUpdateInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -530,7 +510,6 @@ export type OrderCreateManyInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -549,7 +528,6 @@ export type OrderUpdateManyMutationInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -567,7 +545,6 @@ export type OrderUncheckedUpdateManyInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -601,7 +578,6 @@ export type OrderCountOrderByAggregateInput = {
   shippingAddress?: Prisma.SortOrder
   billingAddress?: Prisma.SortOrder
   shippingAmount?: Prisma.SortOrder
-  taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -615,7 +591,6 @@ export type OrderCountOrderByAggregateInput = {
 
 export type OrderAvgOrderByAggregateInput = {
   shippingAmount?: Prisma.SortOrder
-  taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -626,7 +601,6 @@ export type OrderMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   status?: Prisma.SortOrder
   shippingAmount?: Prisma.SortOrder
-  taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -643,7 +617,6 @@ export type OrderMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   status?: Prisma.SortOrder
   shippingAmount?: Prisma.SortOrder
-  taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -657,7 +630,6 @@ export type OrderMinOrderByAggregateInput = {
 
 export type OrderSumOrderByAggregateInput = {
   shippingAmount?: Prisma.SortOrder
-  taxAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   subtotalAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -812,7 +784,6 @@ export type OrderCreateWithoutUserInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -836,7 +807,6 @@ export type OrderUncheckedCreateWithoutUserInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -889,7 +859,6 @@ export type OrderScalarWhereInput = {
   shippingAddress?: Prisma.JsonFilter<"Order">
   billingAddress?: Prisma.JsonFilter<"Order">
   shippingAmount?: Prisma.IntFilter<"Order"> | number
-  taxAmount?: Prisma.IntFilter<"Order"> | number
   discountAmount?: Prisma.IntFilter<"Order"> | number
   subtotalAmount?: Prisma.IntFilter<"Order"> | number
   totalAmount?: Prisma.IntFilter<"Order"> | number
@@ -908,7 +877,6 @@ export type OrderCreateWithoutOrderStatusHistoryInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -932,7 +900,6 @@ export type OrderUncheckedCreateWithoutOrderStatusHistoryInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -972,7 +939,6 @@ export type OrderUpdateWithoutOrderStatusHistoryInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -996,7 +962,6 @@ export type OrderUncheckedUpdateWithoutOrderStatusHistoryInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1020,7 +985,6 @@ export type OrderCreateWithoutItemsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1044,7 +1008,6 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1084,7 +1047,6 @@ export type OrderUpdateWithoutItemsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1108,7 +1070,6 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1132,7 +1093,6 @@ export type OrderCreateWithoutCouponRedemptionsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1156,7 +1116,6 @@ export type OrderUncheckedCreateWithoutCouponRedemptionsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1196,7 +1155,6 @@ export type OrderUpdateWithoutCouponRedemptionsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1220,7 +1178,6 @@ export type OrderUncheckedUpdateWithoutCouponRedemptionsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1244,7 +1201,6 @@ export type OrderCreateWithoutPaymentsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1268,7 +1224,6 @@ export type OrderUncheckedCreateWithoutPaymentsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1308,7 +1263,6 @@ export type OrderUpdateWithoutPaymentsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1332,7 +1286,6 @@ export type OrderUncheckedUpdateWithoutPaymentsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1356,7 +1309,6 @@ export type OrderCreateWithoutInventoryMovementsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1380,7 +1332,6 @@ export type OrderUncheckedCreateWithoutInventoryMovementsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1420,7 +1371,6 @@ export type OrderUpdateWithoutInventoryMovementsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1444,7 +1394,6 @@ export type OrderUncheckedUpdateWithoutInventoryMovementsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1468,7 +1417,6 @@ export type OrderCreateWithoutShipmentsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1492,7 +1440,6 @@ export type OrderUncheckedCreateWithoutShipmentsInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1532,7 +1479,6 @@ export type OrderUpdateWithoutShipmentsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1556,7 +1502,6 @@ export type OrderUncheckedUpdateWithoutShipmentsInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1580,7 +1525,6 @@ export type OrderCreateManyUserInput = {
   shippingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount: number
-  taxAmount: number
   discountAmount: number
   subtotalAmount: number
   totalAmount: number
@@ -1598,7 +1542,6 @@ export type OrderUpdateWithoutUserInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1622,7 +1565,6 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1646,7 +1588,6 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   shippingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   billingAddress?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   shippingAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1740,7 +1681,6 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   shippingAddress?: boolean
   billingAddress?: boolean
   shippingAmount?: boolean
-  taxAmount?: boolean
   discountAmount?: boolean
   subtotalAmount?: boolean
   totalAmount?: boolean
@@ -1767,7 +1707,6 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   shippingAddress?: boolean
   billingAddress?: boolean
   shippingAmount?: boolean
-  taxAmount?: boolean
   discountAmount?: boolean
   subtotalAmount?: boolean
   totalAmount?: boolean
@@ -1787,7 +1726,6 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   shippingAddress?: boolean
   billingAddress?: boolean
   shippingAmount?: boolean
-  taxAmount?: boolean
   discountAmount?: boolean
   subtotalAmount?: boolean
   totalAmount?: boolean
@@ -1807,7 +1745,6 @@ export type OrderSelectScalar = {
   shippingAddress?: boolean
   billingAddress?: boolean
   shippingAmount?: boolean
-  taxAmount?: boolean
   discountAmount?: boolean
   subtotalAmount?: boolean
   totalAmount?: boolean
@@ -1819,7 +1756,7 @@ export type OrderSelectScalar = {
   expiresAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "status" | "shippingAddress" | "billingAddress" | "shippingAmount" | "taxAmount" | "discountAmount" | "subtotalAmount" | "totalAmount" | "currency" | "userId" | "idempotencyKey" | "createdAt" | "updatedAt" | "expiresAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "status" | "shippingAddress" | "billingAddress" | "shippingAmount" | "discountAmount" | "subtotalAmount" | "totalAmount" | "currency" | "userId" | "idempotencyKey" | "createdAt" | "updatedAt" | "expiresAt", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Order$userArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
@@ -1855,7 +1792,6 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     shippingAddress: runtime.JsonValue
     billingAddress: runtime.JsonValue
     shippingAmount: number
-    taxAmount: number
     discountAmount: number
     subtotalAmount: number
     totalAmount: number
@@ -2301,7 +2237,6 @@ export interface OrderFieldRefs {
   readonly shippingAddress: Prisma.FieldRef<"Order", 'Json'>
   readonly billingAddress: Prisma.FieldRef<"Order", 'Json'>
   readonly shippingAmount: Prisma.FieldRef<"Order", 'Int'>
-  readonly taxAmount: Prisma.FieldRef<"Order", 'Int'>
   readonly discountAmount: Prisma.FieldRef<"Order", 'Int'>
   readonly subtotalAmount: Prisma.FieldRef<"Order", 'Int'>
   readonly totalAmount: Prisma.FieldRef<"Order", 'Int'>
