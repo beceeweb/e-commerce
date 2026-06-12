@@ -122,7 +122,7 @@ model Product {
   imageUrl         String?
   isActive         Boolean            @default(true)
   categoryId       String?
-  category         Category?          @relation(fields: [categoryId], references: [id])
+  category         Category?          @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   promotionProduct PromotionProduct[]
   productVariants  ProductVariant[]
   orderItems       OrderItem[]

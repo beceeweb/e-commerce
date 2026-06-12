@@ -6,8 +6,6 @@ import { prisma } from "@/lib/database/prisma";
 import {itemsFromOrder,lockOrder,releaseStock,ReservedItem,} from "@/lib/payment/stock";
 import { Prisma, Promotion, SHIPPING_METHOD } from "@/lib/database/prisma/client";
 import * as Sentry from '@sentry/nextjs'
-import { Coupon } from '../../../../lib/database/prisma/models/Coupon';
-import { number } from "zod";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -27,7 +25,12 @@ class CheckoutError extends Error {
 // Promotions (par produit, niveau ligne)
 // ---------------------------------------------------------------------------
 // On verifie si la promo est active
-function isPromotionActive(promotion: Promotion | Coupon, now = new Date()) {
+type ActivePeriod = {
+  startsAt: Date | null;
+  endsAt: Date | null;
+};
+
+function isPromotionActive(promotion: ActivePeriod, now = new Date()) {
   const hasStarted = !promotion.startsAt || promotion.startsAt <= now;
   const hasNotEnded = !promotion.endsAt || promotion.endsAt >= now;
   return hasStarted && hasNotEnded;
@@ -387,20 +390,41 @@ export async function POST(req: NextRequest) {
     // renvoie le 1er coupon de la table). Cap sur les produits, surface une erreur si invalide.
     let couponEffective = 0;
     if (typeof couponCode === "string" && couponCode.trim() !== "") {
-      const coupon = await prisma.coupon.findFirst({ where: { code: couponCode.trim() } });
-      // TODO: valider selon ton schéma Coupon -> fenêtre active, usage max, montant min, type.
-      if (!coupon || isPromotionActive(coupon, now)) throw new CheckoutError("Code promo invalide");
-      const isUsed = await prisma.couponRedemption.count({
-        where:{
+      const coupon = await prisma.coupon.findFirst({
+        where: { code: couponCode.trim() },
+      });
+
+      if (!coupon || !isPromotionActive(coupon, now)) {
+        throw new CheckoutError("Code promo invalide");
+      }
+
+      const totalUses = await prisma.couponRedemption.count({
+        where: { couponId: coupon.id },
+      });
+
+      if (coupon.maxUses !== null && totalUses >= coupon.maxUses) {
+        throw new CheckoutError("Code promo épuisé");
+      }
+
+      const userUses = await prisma.couponRedemption.count({
+        where: {
           userId: session.user.id,
           couponId: coupon.id,
-        }
-      })
-      if(coupon.maxUsesPerUser !== null && isUsed > coupon.maxUsesPerUser) throw new CheckoutError('Coupon déjà utilisé')
-      if(coupon.type ==='PERCENTAGE'){
-        couponEffective = Math.min(coupon.value - coupon.value*discountedItemsSubtotal, discountedItemsSubtotal)
+        },
+      });
+
+      if (coupon.maxUsesPerUser !== null && userUses >= coupon.maxUsesPerUser) {
+        throw new CheckoutError("Code promo déjà utilisé");
       }
-      couponEffective = Math.min(coupon.value, discountedItemsSubtotal);
+
+      if (coupon.type === "PERCENTAGE") {
+        couponEffective = Math.min(
+          Math.round((discountedItemsSubtotal * coupon.value) / 100),
+          discountedItemsSubtotal
+        );
+      } else {
+        couponEffective = Math.min(coupon.value, discountedItemsSubtotal);
+      }
     }
 
     const discountAmount = promoDiscountTotal + couponEffective;
